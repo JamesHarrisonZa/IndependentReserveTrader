@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
+using IndependentReserve.DotNetClientApi;
+using IndependentReserve.DotNetClientApi.Data;
 using IndependentReserveTrader;
 
 // Build a config object, using env vars and JSON providers.
@@ -15,3 +16,10 @@ var independentReserveConfig = config
 
 Console.WriteLine(independentReserveConfig.ApiKey);
 Console.WriteLine(independentReserveConfig.ApiSecret);
+
+var apiConfig = new ApiConfig(independentReserveConfig.BaseUrl, independentReserveConfig.ApiKey, independentReserveConfig.ApiSecret);
+var client = Client.Create(apiConfig);
+
+var response = client.GetMarketSummary(CurrencyCode.Xbt, CurrencyCode.Usd);
+
+Console.WriteLine(response.LastPrice);
