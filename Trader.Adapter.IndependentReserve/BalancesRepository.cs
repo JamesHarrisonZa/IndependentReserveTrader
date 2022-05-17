@@ -1,7 +1,16 @@
+using Trader.Domain.OutboundPorts;
+
 namespace Trader.Adapter.IndependentReserve;
 
-public interface BalancesRepository
+public class BalancesRepository : IBalancesRepository
 {
-    double GetBitCoinBalance();
-    double GetEtheriumCoinBalance();
+    public double GetBitCoinBalance()
+    {
+        return 42;
+    }
+
+    public double GetEtheriumCoinBalance()
+    {
+        return 42;
+    }
 }
