@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Domain", "Trader.Domain\Trader.Domain.csproj", "{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader", "Trader\Trader.csproj", "{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Console", "Trader.Console\Trader.Console.csproj", "{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
