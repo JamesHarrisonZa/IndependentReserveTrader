@@ -6,7 +6,11 @@
 DOTNET_ENVIRONMENT=development dotnet run --project Trader.Console/Trader.Console.csproj
 ```
 
-## 🤝 Third party docs
+# 🎩 Patterns
+
+Hexagonal architecture with Ports & Adapters pattern.
+
+# 🤝 Third party docs
 
 [Independent Reserve API](https://www.independentreserve.com/nz/products/api)
 
