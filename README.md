@@ -1,9 +1,13 @@
 # IndependantReserveTrader
 
-## API Docs
+# ⚡ Getting started
 
-https://www.independentreserve.com/nz/products/api
+```bash
+DOTNET_ENVIRONMENT=development dotnet run --project IndependentReserveTrader/IndependentReserveTrader.csproj
+```
 
-## SDK
+## 🤝 Third party docs
 
-https://github.com/independentreserve/dotNetApiClient
+[Independent Reserve API](https://www.independentreserve.com/nz/products/api)
+
+[DotNet API Client](https://github.com/independentreserve/dotNetApiClient)

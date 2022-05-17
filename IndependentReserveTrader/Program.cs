@@ -3,19 +3,15 @@ using IndependentReserve.DotNetClientApi;
 using IndependentReserve.DotNetClientApi.Data;
 using IndependentReserveTrader;
 
-// Build a config object, using env vars and JSON providers.
+var env = System.Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
+
 var config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .AddEnvironmentVariables()
+    .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
     .Build();
 
-// Get values from the config given their key and their target type.
 var independentReserveConfig = config
     .GetRequiredSection("IndependentReserve")
     .Get<IndependentReserveConfig>();
-
-// Console.WriteLine(independentReserveConfig.ApiKey);
-// Console.WriteLine(independentReserveConfig.ApiSecret);
 
 var apiConfig = new ApiConfig(independentReserveConfig.BaseUrl, independentReserveConfig.ApiKey, independentReserveConfig.ApiSecret);
 var client = Client.Create(apiConfig);
