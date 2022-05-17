@@ -5,7 +5,7 @@ namespace Trader.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddServices(this IServiceCollection services)
+    public static void AddTraderServices(this IServiceCollection services)
     {
         services.AddDomainPorts();
         services.AddIndependentReserveAdapter();
