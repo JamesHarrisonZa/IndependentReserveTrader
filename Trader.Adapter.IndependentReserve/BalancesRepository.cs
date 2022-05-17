@@ -13,7 +13,7 @@ public class BalancesRepository : IBalancesRepository
     public BalancesRepository(IConfiguration configuration)
     {
         var independentReserveConfig = configuration.GetSection("IndependentReserve").Get<IndependentReserveConfig>();
-        
+
         var apiConfig = new ApiConfig(independentReserveConfig.BaseUrl, independentReserveConfig.ApiKey, independentReserveConfig.ApiSecret);
         _client = Client.Create(apiConfig);
     }

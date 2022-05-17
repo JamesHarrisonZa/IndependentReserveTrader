@@ -7,6 +7,6 @@ public static class ServiceCollectionExtensions
 {
     public static void AddIndependentReserveAdapter(this IServiceCollection services)
     {
-        services.AddScoped<IBalancesRepository, BalancesRepository>();
+        services.AddSingleton<IBalancesRepository, BalancesRepository>();
     }
 }

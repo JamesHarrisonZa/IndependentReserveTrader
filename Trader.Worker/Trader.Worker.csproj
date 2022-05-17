@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Trader.DependencyInjection\Trader.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Trader.Domain\Trader.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
