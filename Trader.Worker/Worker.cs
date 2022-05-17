@@ -19,19 +19,7 @@ public class Worker : BackgroundService
         var balancesTable = await GetBalancesTable();
         AnsiConsole.Write(balancesTable);
 
-        await AnsiConsole.Status()
-            .Spinner(Spinner.Known.Aesthetic)
-            .SpinnerStyle(Style.Parse("green"))
-            .StartAsync("Doing stuff... 🚀", async ctx => 
-            {
-              while (!stoppingToken.IsCancellationRequested)
-              {
-                  AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
-
-                  var fiveSeconds = 5000;
-                  await Task.Delay(fiveSeconds, stoppingToken);
-              }
-            });
+        await Update(stoppingToken);
     }
 
     private async Task<Table> GetBalancesTable()
@@ -56,5 +44,22 @@ public class Worker : BackgroundService
         table.AddRow("[chartreuse2]ETH[/]", $"[chartreuse2]{ethCurrentPrice}[/]", $"[chartreuse2]{ethBalance}[/]", $"[chartreuse2]{ethValue}[/]");
 
         return table;
+    }
+
+    private async Task Update(CancellationToken stoppingToken)
+    {
+        await AnsiConsole.Status()
+              .Spinner(Spinner.Known.Aesthetic)
+              .SpinnerStyle(Style.Parse("green"))
+              .StartAsync("Doing stuff... 🚀", async ctx => 
+              {
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
+
+                    var fiveSeconds = 5000;
+                    await Task.Delay(fiveSeconds, stoppingToken);
+                }
+              });
     }
 }
