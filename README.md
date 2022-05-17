@@ -3,7 +3,7 @@
 # ⚡ Getting started
 
 ```bash
-DOTNET_ENVIRONMENT=development dotnet run --project Trader.Console/Trader.Console.csproj
+DOTNET_ENVIRONMENT=development dotnet run --project Trader.Worker/Trader.Worker.csproj
 ```
 
 # 🎩 Patterns

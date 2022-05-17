@@ -2,3 +2,4 @@ bin/
 obj
 
 appsettings.development.json
+appsettings.Development.json

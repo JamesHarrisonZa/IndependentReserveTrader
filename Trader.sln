@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Adapter.IndependentR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.DependencyInjection", "Trader.DependencyInjection\Trader.DependencyInjection.csproj", "{8681018B-3472-4763-8AB5-699AE70A8FE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Worker", "Trader.Worker\Trader.Worker.csproj", "{875C336E-6E83-45B2-AD27-2CCA90F5AA3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{8681018B-3472-4763-8AB5-699AE70A8FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8681018B-3472-4763-8AB5-699AE70A8FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8681018B-3472-4763-8AB5-699AE70A8FE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{875C336E-6E83-45B2-AD27-2CCA90F5AA3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{875C336E-6E83-45B2-AD27-2CCA90F5AA3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{875C336E-6E83-45B2-AD27-2CCA90F5AA3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{875C336E-6E83-45B2-AD27-2CCA90F5AA3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
