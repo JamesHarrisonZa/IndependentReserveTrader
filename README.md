@@ -3,7 +3,7 @@
 # ⚡ Getting started
 
 ```bash
-DOTNET_ENVIRONMENT=development dotnet run --project IndependentReserveTrader/IndependentReserveTrader.csproj
+DOTNET_ENVIRONMENT=development dotnet run --project Trader/Trader.csproj
 ```
 
 ## 🤝 Third party docs

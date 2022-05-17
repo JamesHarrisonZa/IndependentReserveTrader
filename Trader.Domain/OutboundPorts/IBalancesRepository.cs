@@ -1,4 +1,4 @@
-namespace IndependentReserveTrader.Domain.OutboundPorts;
+namespace Trader.Domain.OutboundPorts;
 
 public interface IBalancesRepository
 {

@@ -1,4 +1,4 @@
-namespace IndependentReserveTrader.Domain.InboundPorts;
+namespace Trader.Domain.InboundPorts;
 
 public interface IBalancesReader
 {

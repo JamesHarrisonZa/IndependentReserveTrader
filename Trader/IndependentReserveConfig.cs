@@ -1,4 +1,4 @@
-namespace IndependentReserveTrader;
+namespace Trader;
 
 public class IndependentReserveConfig
 {

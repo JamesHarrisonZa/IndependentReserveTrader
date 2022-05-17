@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using IndependentReserve.DotNetClientApi;
 using IndependentReserve.DotNetClientApi.Data;
-using IndependentReserveTrader;
+using Trader;
 
 var env = System.Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
 
