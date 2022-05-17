@@ -1,4 +1,4 @@
-namespace Trader;
+namespace Trader.Console.Config;
 
 public class IndependentReserveConfig
 {
