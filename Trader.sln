@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Domain", "Trader.Domain\Trader.Domain.csproj", "{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Console", "Trader.Console\Trader.Console.csproj", "{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Adapter.IndependentReserve", "Trader.Adapter.IndependentReserve\Trader.Adapter.IndependentReserve.csproj", "{35ABA8F7-1828-476A-9B69-F15F8A7F6924}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.DependencyInjection", "Trader.DependencyInjection\Trader.DependencyInjection.csproj", "{8681018B-3472-4763-8AB5-699AE70A8FE2}"
@@ -26,10 +24,6 @@ Global
 		{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{35ABA8F7-1828-476A-9B69-F15F8A7F6924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{35ABA8F7-1828-476A-9B69-F15F8A7F6924}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35ABA8F7-1828-476A-9B69-F15F8A7F6924}.Release|Any CPU.ActiveCfg = Release|Any CPU
