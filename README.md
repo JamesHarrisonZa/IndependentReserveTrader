@@ -12,11 +12,13 @@ Hexagonal architecture with Ports & Adapters pattern.
 
 ## 🤝 Third party docs
 
-- [Independent Reserve API](https://www.independentreserve.com/nz/products/api)
+- Independent Reserve API
+  - [API Docs](https://www.independentreserve.com/nz/products/api)
+  - [DotNet API Client on github](https://github.com/independentreserve/dotNetApiClient)
 
-- [DotNet API Client](https://github.com/independentreserve/dotNetApiClient)
-
-- [Spectre.Console](https://spectreconsole.net/)
+- Spectre.Console
+  - [Nuget package on github](https://github.com/spectreconsole/spectre.console)
+  - [Docs](https://spectreconsole.net/)
 
 ## 🔧 Coming Soon™
 
