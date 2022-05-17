@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Console", "Trader.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Adapter.IndependentReserve", "Trader.Adapter.IndependentReserve\Trader.Adapter.IndependentReserve.csproj", "{35ABA8F7-1828-476A-9B69-F15F8A7F6924}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.DependencyInjection", "Trader.DependencyInjection\Trader.DependencyInjection.csproj", "{8681018B-3472-4763-8AB5-699AE70A8FE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{35ABA8F7-1828-476A-9B69-F15F8A7F6924}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35ABA8F7-1828-476A-9B69-F15F8A7F6924}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35ABA8F7-1828-476A-9B69-F15F8A7F6924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8681018B-3472-4763-8AB5-699AE70A8FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8681018B-3472-4763-8AB5-699AE70A8FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8681018B-3472-4763-8AB5-699AE70A8FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8681018B-3472-4763-8AB5-699AE70A8FE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
