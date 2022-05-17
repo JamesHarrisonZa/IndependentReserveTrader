@@ -1,17 +1,21 @@
 # IndependantReserveTrader
 
-# ⚡ Getting started
+## ⚡ Getting started
 
 ```bash
 dotnet run --project Trader.Worker/Trader.Worker.csproj
 ```
 
-# 🎩 Patterns
+## 🎩 Patterns
 
 Hexagonal architecture with Ports & Adapters pattern.
 
-# 🤝 Third party docs
+## 🤝 Third party docs
 
 [Independent Reserve API](https://www.independentreserve.com/nz/products/api)
 
 [DotNet API Client](https://github.com/independentreserve/dotNetApiClient)
+
+## 🔧 Coming Soon™
+
+- Flesh out Domain logic with tests
