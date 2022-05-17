@@ -2,11 +2,9 @@ namespace Trader.Domain.OutboundPorts;
 
 public interface IBalancesRepository
 {
-    Task<decimal> GetBitCoinBalance();
+    Task<decimal> GetBalance(string code);
 
-    Task<decimal> GetEtheriumBalance();
-
-    Task<decimal> GetBitCoinCurrentPrice();
+    Task<decimal> GetCurrentPrice(string code, string fiatCurrency);
     
-    Task<decimal> GetEtheriumCurrentPrice();
+    Task<decimal> GetBalanceValue(string code, string fiatCurrency);
 }

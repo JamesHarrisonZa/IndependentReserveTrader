@@ -18,33 +18,48 @@ public class BalancesRepository : IBalancesRepository
         _client = Client.Create(apiConfig);
     }
 
-    public async Task<decimal> GetBitCoinBalance()
+    public async Task<decimal> GetBalance(string code)
     {
+        var currencyCode = GetCurrencyCode(code);
+
         var accounts = await _client.GetAccountsAsync(); //ToDo: Share or add caching
-        var btcAccount = accounts.FirstOrDefault(a => a.CurrencyCode == CurrencyCode.Xbt);
+        var currencyCodeAccount = accounts.FirstOrDefault(a => a.CurrencyCode == currencyCode);
 
-        return btcAccount?.TotalBalance ?? 0;
+        return currencyCodeAccount?.TotalBalance ?? 0;
     }
 
-    public async Task<decimal> GetEtheriumBalance()
+    public async Task<decimal> GetCurrentPrice(string code, string fiatCurrency)
     {
-        var accounts = await _client.GetAccountsAsync(); //ToDo: Share or add caching
-        var ethAccount = accounts.FirstOrDefault(a => a.CurrencyCode == CurrencyCode.Eth);
+        var currencyCode = GetCurrencyCode(code);
+        var fiatCurrencyCode = GetCurrencyCode(fiatCurrency);
 
-        return ethAccount?.TotalBalance ?? 0;
-    }
-
-    public async Task<decimal> GetBitCoinCurrentPrice()
-    {
-        var btcSummary = await _client.GetMarketSummaryAsync(CurrencyCode.Xbt, CurrencyCode.Nzd); //ToDo: Share or add caching
+        var currencyCodeSummary = await _client.GetMarketSummaryAsync(currencyCode, fiatCurrencyCode); //ToDo: Share or add caching
         
-        return btcSummary?.LastPrice ?? 0;
+        return currencyCodeSummary?.LastPrice ?? 0;
     }
 
-    public async Task<decimal> GetEtheriumCurrentPrice()
+    public async Task<decimal> GetBalanceValue(string code, string fiatCurrency)
     {
-        var ethSummary = await _client.GetMarketSummaryAsync(CurrencyCode.Eth, CurrencyCode.Nzd); //ToDo: Share or add caching
-        
-        return ethSummary?.LastPrice ?? 0;
+        var balance = await GetBalance(code);
+        var currentPrice = await GetCurrentPrice(code, fiatCurrency);
+
+        return Math.Round(balance * currentPrice, 2);
     }
+
+    public CurrencyCode GetCurrencyCode(string code)
+    {
+        //TODO: Something smarter. Its late
+        if (code == "BTC")
+            return CurrencyCode.Xbt;
+        if (code == "ETH")
+            return CurrencyCode.Eth;
+
+        if (code == "NZD")
+            return CurrencyCode.Nzd;
+        if (code == "USD")
+            return CurrencyCode.Usd;
+
+        throw new ArgumentException($"Invalid code: {code}");
+    }
+
 }

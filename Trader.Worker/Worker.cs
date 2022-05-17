@@ -1,16 +1,16 @@
 using Spectre.Console;
-using Trader.Domain.OutboundPorts;
+using Trader.Domain.InboundPorts;
 
 namespace Trader.Worker;
 
 public class Worker : BackgroundService
 {
-    private readonly IBalancesRepository _balancesRepository;
+    private readonly IBalancesReader _balancesReader;
     private readonly ILogger<Worker> _logger;
 
-    public Worker(IBalancesRepository balancesRepository, ILogger<Worker> logger)
+    public Worker(IBalancesReader balancesReader, ILogger<Worker> logger)
     {
-        _balancesRepository = balancesRepository;
+        _balancesReader = balancesReader;
         _logger = logger;
     }
 
@@ -24,14 +24,14 @@ public class Worker : BackgroundService
 
     private async Task<Table> GetBalancesTable()
     {
-        var btcBalance = await _balancesRepository.GetBitCoinBalance();
-        var ethBalance = await _balancesRepository.GetEtheriumBalance();
+        var btcBalance = await _balancesReader.GetBitCoinBalance();
+        var ethBalance = await _balancesReader.GetEtheriumBalance();
 
-        var btcCurrentPrice = await _balancesRepository.GetBitCoinCurrentPrice();
-        var ethCurrentPrice = await _balancesRepository.GetEtheriumCurrentPrice();
+        var btcCurrentPrice = await _balancesReader.GetBitCoinCurrentPrice();
+        var ethCurrentPrice = await _balancesReader.GetEtheriumCurrentPrice();
 
-        var btcValue = Math.Round(btcBalance * btcCurrentPrice, 2);
-        var ethValue = Math.Round(ethBalance * ethCurrentPrice, 2);
+        var btcValue = await _balancesReader.GetBitCoinBalanceValue();
+        var ethValue = await _balancesReader.GetEtheriumBalanceValue();
 
         var table = new Table();
 
