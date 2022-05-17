@@ -19,13 +19,19 @@ public class Worker : BackgroundService
         var balancesTable = await GetBalancesTable();
         AnsiConsole.Write(balancesTable);
 
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
+        await AnsiConsole.Status()
+            .Spinner(Spinner.Known.Aesthetic)
+            .SpinnerStyle(Style.Parse("green"))
+            .StartAsync("Doing stuff... 🚀", async ctx => 
+            {
+              while (!stoppingToken.IsCancellationRequested)
+              {
+                  AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
 
-            var fiveSeconds = 5000;
-            await Task.Delay(fiveSeconds, stoppingToken);
-        }
+                  var fiveSeconds = 5000;
+                  await Task.Delay(fiveSeconds, stoppingToken);
+              }
+            });
     }
 
     private async Task<Table> GetBalancesTable()
