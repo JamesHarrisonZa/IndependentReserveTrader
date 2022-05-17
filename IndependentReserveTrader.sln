@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentReserveTrader.Domain", "IndependentReserveTrader.Domain\IndependentReserveTrader.Domain.csproj", "{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentReserveTrader", "IndependentReserveTrader\IndependentReserveTrader.csproj", "{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13EFD34E-5EEB-47F8-A842-AFBC924D30BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D1327F1-1F7F-4C96-81FF-09926D2AABCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
