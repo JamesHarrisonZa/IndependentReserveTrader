@@ -21,4 +21,14 @@ public class BalancesReader : IBalancesReader
     {
       return await _balancesRepository.GetEtheriumBalance();
     }
+
+    public async Task<decimal> GetBitCoinCurrentPrice()
+    {
+      return await _balancesRepository.GetBitCoinCurrentPrice();
+    }
+    
+    public async Task<decimal> GetEtheriumCurrentPrice()
+    {
+      return await _balancesRepository.GetEtheriumCurrentPrice();
+    }
 }

@@ -33,4 +33,18 @@ public class BalancesRepository : IBalancesRepository
 
         return ethAccount?.TotalBalance ?? 0;
     }
+
+    public async Task<decimal> GetBitCoinCurrentPrice()
+    {
+        var btcSummary = await _client.GetMarketSummaryAsync(CurrencyCode.Xbt, CurrencyCode.Nzd); //ToDo: Share or add caching
+        
+        return btcSummary?.LastPrice ?? 0;
+    }
+
+    public async Task<decimal> GetEtheriumCurrentPrice()
+    {
+        var ethSummary = await _client.GetMarketSummaryAsync(CurrencyCode.Eth, CurrencyCode.Nzd); //ToDo: Share or add caching
+        
+        return ethSummary?.LastPrice ?? 0;
+    }
 }

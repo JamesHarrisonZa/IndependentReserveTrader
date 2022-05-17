@@ -36,16 +36,24 @@ public class Worker : BackgroundService
 
     private async Task<Table> GetBalancesTable()
     {
-        var bitCoinBalance = await _balancesRepository.GetBitCoinBalance();
-        var etheriumCoinBalance = await _balancesRepository.GetEtheriumBalance();
+        var btcBalance = await _balancesRepository.GetBitCoinBalance();
+        var ethBalance = await _balancesRepository.GetEtheriumBalance();
+
+        var btcCurrentPrice = await _balancesRepository.GetBitCoinCurrentPrice();
+        var ethCurrentPrice = await _balancesRepository.GetEtheriumCurrentPrice();
+
+        var btcValue = Math.Round(btcBalance * btcCurrentPrice, 2);
+        var ethValue = Math.Round(ethBalance * ethCurrentPrice, 2);
 
         var table = new Table();
 
         table.AddColumn("Coin");
+        table.AddColumn(new TableColumn("Current Price (NZD)").Centered());
         table.AddColumn(new TableColumn("Balance").Centered());
+        table.AddColumn(new TableColumn("Value (NZD)").Centered());
 
-        table.AddRow("[cyan1]BTC[/]", $"[cyan1]{bitCoinBalance}[/]");
-        table.AddRow("[chartreuse2]ETH[/]", $"[chartreuse2]{etheriumCoinBalance}[/]");
+        table.AddRow("[cyan1]BTC[/]", $"[cyan1]{btcCurrentPrice}[/]", $"[cyan1]{btcBalance}[/]", $"[cyan1]{btcValue}[/]");
+        table.AddRow("[chartreuse2]ETH[/]", $"[chartreuse2]{ethCurrentPrice}[/]", $"[chartreuse2]{ethBalance}[/]", $"[chartreuse2]{ethValue}[/]");
 
         return table;
     }
