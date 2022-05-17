@@ -4,5 +4,5 @@ public interface IBalancesReader
 {
     Task<decimal> GetBitCoinBalance();
 
-    Task<decimal> GetEtheriumCoinBalance();
+    Task<decimal> GetEtheriumBalance();
 }

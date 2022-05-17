@@ -26,7 +26,7 @@ public class BalancesRepository : IBalancesRepository
         return btcAccount?.TotalBalance ?? 0;
     }
 
-    public async Task<decimal> GetEtheriumCoinBalance()
+    public async Task<decimal> GetEtheriumBalance()
     {
         var accounts = await _client.GetAccountsAsync(); //ToDo: Share or add caching
         var ethAccount = accounts.FirstOrDefault(a => a.CurrencyCode == CurrencyCode.Eth);

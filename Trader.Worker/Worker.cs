@@ -37,7 +37,7 @@ public class Worker : BackgroundService
     private async Task<Table> GetBalancesTable()
     {
         var bitCoinBalance = await _balancesRepository.GetBitCoinBalance();
-        var etheriumCoinBalance = await _balancesRepository.GetEtheriumCoinBalance();
+        var etheriumCoinBalance = await _balancesRepository.GetEtheriumBalance();
 
         var table = new Table();
 

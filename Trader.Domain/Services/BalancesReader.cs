@@ -17,8 +17,8 @@ public class BalancesReader : IBalancesReader
       return await _balancesRepository.GetBitCoinBalance();
     }
 
-    public async Task<decimal> GetEtheriumCoinBalance()
+    public async Task<decimal> GetEtheriumBalance()
     {
-      return await _balancesRepository.GetEtheriumCoinBalance();
+      return await _balancesRepository.GetEtheriumBalance();
     }
 }
