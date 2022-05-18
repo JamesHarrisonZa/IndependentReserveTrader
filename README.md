@@ -22,4 +22,4 @@ Hexagonal architecture with Ports & Adapters pattern.
 
 ## 🔧 Coming Soon™
 
-- Flesh out Domain logic with tests
+- Domain logic for algorithm to buy/sell 🤡
