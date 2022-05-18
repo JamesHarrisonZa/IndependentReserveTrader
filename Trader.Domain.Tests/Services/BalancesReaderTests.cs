@@ -1,5 +1,6 @@
 using Moq;
 using Xunit;
+using Trader.Domain.Enums;
 using Trader.Domain.Services;
 using Trader.Domain.InboundPorts;
 using Trader.Domain.OutboundPorts;
@@ -22,7 +23,7 @@ public class BalancesReaderTests
     {
         var expected = 42m;
         _balancesRepository
-            .Setup(br => br.GetCurrentPrice("BTC", "NZD"))
+            .Setup(br => br.GetCurrentPrice(CryptoCurrency.BTC, FiatCurrency.NZD))
             .ReturnsAsync(expected)
             .Verifiable();
 
@@ -37,7 +38,7 @@ public class BalancesReaderTests
     {
         var expected = 0.42m;
         _balancesRepository
-            .Setup(br => br.GetBalance("BTC"))
+            .Setup(br => br.GetBalance(CryptoCurrency.BTC))
             .ReturnsAsync(expected)
             .Verifiable();
 
@@ -52,7 +53,7 @@ public class BalancesReaderTests
     {
         var expected = 4200m;
         _balancesRepository
-            .Setup(br => br.GetBalanceValue("BTC", "NZD"))
+            .Setup(br => br.GetBalanceValue(CryptoCurrency.BTC, FiatCurrency.NZD))
             .ReturnsAsync(expected)
             .Verifiable();
 
@@ -67,7 +68,7 @@ public class BalancesReaderTests
     {
         var expected = 42m;
         _balancesRepository
-            .Setup(br => br.GetCurrentPrice("ETH", "NZD"))
+            .Setup(br => br.GetCurrentPrice(CryptoCurrency.ETH, FiatCurrency.NZD))
             .ReturnsAsync(expected)
             .Verifiable();
 
@@ -82,7 +83,7 @@ public class BalancesReaderTests
     {
         var expected = 0.42m;
         _balancesRepository
-            .Setup(br => br.GetBalance("ETH"))
+            .Setup(br => br.GetBalance(CryptoCurrency.ETH))
             .ReturnsAsync(expected)
             .Verifiable();
 
@@ -97,7 +98,7 @@ public class BalancesReaderTests
     {
         var expected = 4200m;
         _balancesRepository
-            .Setup(br => br.GetBalanceValue("ETH", "NZD"))
+            .Setup(br => br.GetBalanceValue(CryptoCurrency.ETH, FiatCurrency.NZD))
             .ReturnsAsync(expected)
             .Verifiable();
 

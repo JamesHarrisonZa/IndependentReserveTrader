@@ -1,3 +1,4 @@
+using Trader.Domain.Enums;
 using Trader.Domain.InboundPorts;
 using Trader.Domain.OutboundPorts;
 
@@ -14,31 +15,37 @@ public class BalancesReader : IBalancesReader
 
     public async Task<decimal> GetBitCoinCurrentPrice()
     {
-      return await _balancesRepository.GetCurrentPrice("BTC", "NZD");
+      return await _balancesRepository
+          .GetCurrentPrice(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
 
     public async Task<decimal> GetBitCoinBalance()
     {
-      return await _balancesRepository.GetBalance("BTC");
+      return await _balancesRepository
+          .GetBalance(CryptoCurrency.BTC);
     }
 
     public async Task<decimal> GetBitCoinBalanceValue()
     {
-      return await _balancesRepository.GetBalanceValue("BTC", "NZD");
+      return await _balancesRepository
+          .GetBalanceValue(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
     
     public async Task<decimal> GetEtheriumCurrentPrice()
     {
-      return await _balancesRepository.GetCurrentPrice("ETH", "NZD");
+      return await _balancesRepository
+          .GetCurrentPrice(CryptoCurrency.ETH, FiatCurrency.NZD);
     }
 
     public async Task<decimal> GetEtheriumBalance()
     {
-      return await _balancesRepository.GetBalance("ETH");
+      return await _balancesRepository
+          .GetBalance(CryptoCurrency.ETH);
     }
 
     public async Task<decimal> GetEtheriumBalanceValue()
     {
-      return await _balancesRepository.GetBalanceValue("ETH", "NZD");
+      return await _balancesRepository
+          .GetBalanceValue(CryptoCurrency.ETH, FiatCurrency.NZD);
     }
 }
