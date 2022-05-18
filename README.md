@@ -8,7 +8,8 @@ dotnet run --project Trader.Worker/Trader.Worker.csproj
 
 ## 🎩 Patterns
 
-Hexagonal architecture with Ports & Adapters pattern.
+- __Hexagonal architecture__ with __Ports & Adapters__ pattern.
+  - [Netflix post](https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749)
 
 ## 🤝 Third party docs
 
