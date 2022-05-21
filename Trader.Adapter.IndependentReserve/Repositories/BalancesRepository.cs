@@ -4,7 +4,7 @@ using Trader.Domain.Enums;
 using Trader.Domain.OutboundPorts;
 using Trader.Adapter.IndependentReserve.Config;
 
-namespace Trader.Adapter.IndependentReserve;
+namespace Trader.Adapter.IndependentReserve.Repositories;
 
 public class BalancesRepository : IBalancesRepository
 {

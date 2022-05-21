@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Trader.Domain.OutboundPorts;
+using Trader.Adapter.IndependentReserve.Repositories;
 
 namespace Trader.Adapter.IndependentReserve;
 
