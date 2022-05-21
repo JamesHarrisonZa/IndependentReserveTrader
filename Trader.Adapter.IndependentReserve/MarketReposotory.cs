@@ -44,7 +44,7 @@ public class MarketRepository : IMarketRepository
     {
         var currentPrice = await GetCurrentPrice(cryptoCurrency, fiatCurrency);
 
-        var cryptoAmount = fiatAmount/currentPrice;
+        var cryptoAmount = Math.Round(fiatAmount/currentPrice, 7);
 
         return cryptoAmount;
     }

@@ -7,12 +7,14 @@ public class Worker : BackgroundService
 {
     private readonly IBalancesReader _balancesReader;
     private readonly IMarketReader _marketReader;
+    private readonly IMarketWriter _marketWriter;
     private readonly ILogger<Worker> _logger;
 
-    public Worker(IBalancesReader balancesReader, IMarketReader marketReader, ILogger<Worker> logger)
+    public Worker(IBalancesReader balancesReader, IMarketReader marketReader, IMarketWriter marketWriter, ILogger<Worker> logger)
     {
         _balancesReader = balancesReader;
         _marketReader = marketReader;
+        _marketWriter = marketWriter;
         _logger = logger;
     }
 
@@ -55,6 +57,8 @@ public class Worker : BackgroundService
               .SpinnerStyle(Style.Parse("green"))
               .StartAsync("Doing stuff... 🚀", async ctx => 
               {
+                await _marketWriter.PlaceBitcoinBuyOrder();
+
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
