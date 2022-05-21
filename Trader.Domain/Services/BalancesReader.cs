@@ -13,12 +13,6 @@ public class BalancesReader : IBalancesReader
         _balancesRepository = balancesRepository;
     }
 
-    public async Task<decimal> GetBitCoinCurrentPrice()
-    {
-      return await _balancesRepository
-          .GetCurrentPrice(CryptoCurrency.BTC, FiatCurrency.NZD);
-    }
-
     public async Task<decimal> GetBitCoinBalance()
     {
       return await _balancesRepository
@@ -29,12 +23,6 @@ public class BalancesReader : IBalancesReader
     {
       return await _balancesRepository
           .GetBalanceValue(CryptoCurrency.BTC, FiatCurrency.NZD);
-    }
-    
-    public async Task<decimal> GetEtheriumCurrentPrice()
-    {
-      return await _balancesRepository
-          .GetCurrentPrice(CryptoCurrency.ETH, FiatCurrency.NZD);
     }
 
     public async Task<decimal> GetEtheriumBalance()

@@ -6,11 +6,13 @@ namespace Trader.Worker;
 public class Worker : BackgroundService
 {
     private readonly IBalancesReader _balancesReader;
+    private readonly IMarketReader _marketReader;
     private readonly ILogger<Worker> _logger;
 
-    public Worker(IBalancesReader balancesReader, ILogger<Worker> logger)
+    public Worker(IBalancesReader balancesReader, IMarketReader marketReader, ILogger<Worker> logger)
     {
         _balancesReader = balancesReader;
+        _marketReader = marketReader;
         _logger = logger;
     }
 
@@ -27,8 +29,8 @@ public class Worker : BackgroundService
         var btcBalance = await _balancesReader.GetBitCoinBalance();
         var ethBalance = await _balancesReader.GetEtheriumBalance();
 
-        var btcCurrentPrice = await _balancesReader.GetBitCoinCurrentPrice();
-        var ethCurrentPrice = await _balancesReader.GetEtheriumCurrentPrice();
+        var btcCurrentPrice = await _marketReader.GetBitCoinCurrentPrice();
+        var ethCurrentPrice = await _marketReader.GetEtheriumCurrentPrice();
 
         var btcValue = await _balancesReader.GetBitCoinBalanceValue();
         var ethValue = await _balancesReader.GetEtheriumBalanceValue();

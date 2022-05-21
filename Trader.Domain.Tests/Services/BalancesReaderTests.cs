@@ -19,21 +19,6 @@ public class BalancesReaderTests
     }
 
     [Fact]
-    public async void When_GetBitCoinCurrentPrice_Then_Queries_Repository()
-    {
-        var expected = 42m;
-        _balancesRepository
-            .Setup(br => br.GetCurrentPrice(CryptoCurrency.BTC, FiatCurrency.NZD))
-            .ReturnsAsync(expected)
-            .Verifiable();
-
-        var actual = await _balancesReader.GetBitCoinCurrentPrice();
-
-        _balancesRepository.Verify();
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
     public async void When_GetBitCoinBalance_Then_Queries_Repository()
     {
         var expected = 0.42m;
@@ -58,21 +43,6 @@ public class BalancesReaderTests
             .Verifiable();
 
         var actual = await _balancesReader.GetBitCoinBalanceValue();
-
-        _balancesRepository.Verify();
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public async void When_GetEtheriumCurrentPrice_Then_Queries_Repository()
-    {
-        var expected = 42m;
-        _balancesRepository
-            .Setup(br => br.GetCurrentPrice(CryptoCurrency.ETH, FiatCurrency.NZD))
-            .ReturnsAsync(expected)
-            .Verifiable();
-
-        var actual = await _balancesReader.GetEtheriumCurrentPrice();
 
         _balancesRepository.Verify();
         Assert.Equal(expected, actual);

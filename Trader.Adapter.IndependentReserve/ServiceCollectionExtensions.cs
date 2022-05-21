@@ -8,5 +8,6 @@ public static class ServiceCollectionExtensions
     public static void AddIndependentReserveAdapter(this IServiceCollection services)
     {
         services.AddSingleton<IBalancesRepository, BalancesRepository>();
+        services.AddSingleton<IMarketRepository, MarketRepository>();
     }
 }
