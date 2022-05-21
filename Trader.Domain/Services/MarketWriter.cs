@@ -15,7 +15,7 @@ public class MarketWriter : IMarketWriter
 
     public async Task PlaceBitcoinBuyOrder()
     {
-      var amount = 450m; //TODO. Plan coming soon™
+      var amount = 950m; //TODO. Plan coming soon™
 
       await _marketRepository
           .PlaceBuyOrder(CryptoCurrency.BTC, FiatCurrency.NZD, amount);

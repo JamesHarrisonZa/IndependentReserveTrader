@@ -1,4 +1,5 @@
 using IndependentReserve.DotNetClientApi;
+using IndependentReserve.DotNetClientApi.Data;
 using Microsoft.Extensions.Configuration;
 using Trader.Domain.Enums;
 using Trader.Domain.OutboundPorts;
@@ -33,18 +34,30 @@ public class MarketRepository : IMarketRepository
         var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
         var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
 
-        var cryptoVolume = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
+        var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
 
-        Console.WriteLine($"Volume for {fiatAmount} is {cryptoVolume}");
+        Console.WriteLine($"Placing a buy order for {cryptoAmount}");
 
-        // var response = await _client.PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoVolume);
+        var response = await _client.PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketBid, cryptoAmount);
+    }
+
+    public async Task PlaceSellOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
+    {
+        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
+        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
+
+        var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
+
+        Console.WriteLine($"Placing a sell order for {cryptoAmount}");
+
+        var response = await _client.PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoAmount);
     }
 
     private async Task<decimal> GetCryptoAmount(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
     {
         var currentPrice = await GetCurrentPrice(cryptoCurrency, fiatCurrency);
 
-        var cryptoAmount = Math.Round(fiatAmount/currentPrice, 7);
+        var cryptoAmount = Math.Round(fiatAmount/currentPrice, 8);
 
         return cryptoAmount;
     }

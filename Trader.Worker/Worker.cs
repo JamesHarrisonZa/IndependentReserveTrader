@@ -57,11 +57,9 @@ public class Worker : BackgroundService
               .SpinnerStyle(Style.Parse("green"))
               .StartAsync("Doing stuff... 🚀", async ctx => 
               {
-                await _marketWriter.PlaceBitcoinBuyOrder();
-
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
+                    // AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
 
                     var fiveSeconds = 5000;
                     await Task.Delay(fiveSeconds, stoppingToken);
