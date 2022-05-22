@@ -7,21 +7,29 @@ public static class CodeConverter {
 
     public static CurrencyCode GetCurrencyCode(CryptoCurrency code)
     {
-        if (code.ToString() == "BTC")
-            return CurrencyCode.Xbt;
-        if (code.ToString() == "ETH")
-            return CurrencyCode.Eth;
+        switch (code)
+        {
+            case CryptoCurrency.BTC:
+                return CurrencyCode.Xbt;
+            case CryptoCurrency.ETH:
+                return CurrencyCode.Eth;
 
-        throw new ArgumentException($"Invalid code: {code}");
-    }
+            default:
+                throw new ArgumentException($"Invalid code: {code}");
+        }
+  }
 
     public static CurrencyCode GetCurrencyCode(FiatCurrency code)
     {
-        if (code.ToString() == "NZD")
-            return CurrencyCode.Nzd;
-        if (code.ToString() == "USD")
-            return CurrencyCode.Usd;
+        switch (code)
+        {
+          case FiatCurrency.NZD:
+              return CurrencyCode.Nzd;
+          case FiatCurrency.USD:
+              return CurrencyCode.Usd;
 
-        throw new ArgumentException($"Invalid code: {code}");
+          default:
+              throw new ArgumentException($"Invalid code: {code}");
+        }
     }
 }
