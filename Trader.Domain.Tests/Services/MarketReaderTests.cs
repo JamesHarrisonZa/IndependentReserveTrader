@@ -1,10 +1,3 @@
-using Moq;
-using Xunit;
-using Trader.Domain.Enums;
-using Trader.Domain.Services;
-using Trader.Domain.InboundPorts;
-using Trader.Domain.OutboundPorts;
-
 namespace Trader.Domain.Tests;
 
 public class MarketReaderTests
