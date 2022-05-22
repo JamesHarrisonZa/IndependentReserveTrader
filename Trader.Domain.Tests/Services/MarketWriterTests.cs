@@ -14,9 +14,8 @@ public class MarketWriterTests
     [Fact]
     public async void When_PlaceBitcoinBuyOrder_Then_Calls_Repository()
     {
-        var amount = 450m; //TODO. Plan coming soon™
         _marketRepository
-            .Setup(mr => mr.PlaceBuyOrder(CryptoCurrency.BTC, FiatCurrency.NZD, amount))
+            .Setup(mr => mr.PlaceBuyOrder(CryptoCurrency.BTC, FiatCurrency.NZD, It.IsAny<decimal>()))
             .Verifiable();
 
         await _marketWriter.PlaceBitcoinBuyOrder();
