@@ -4,21 +4,19 @@ public class BalancesRepositoryTests
 {
     private readonly Fixture _fixture;
     private readonly Mock<IMarketRepository> _marketRepositoryMock;
+    private readonly Mock<Client> _clientMock;
     private readonly IBalancesRepository _balancesRepository;
 
     public BalancesRepositoryTests()
     {
         _fixture = new Fixture();
-        var independentReserveConfigFake = _fixture
-            .Build<IndependentReserveConfig>()
-            .With(c => c.BaseUrl, "https://example.com")
-            .Create();
 
         _marketRepositoryMock = new Mock<IMarketRepository>();
+        _clientMock = new Mock<Client>();
 
         _balancesRepository = new BalancesRepository(
             _marketRepositoryMock.Object, 
-            independentReserveConfigFake
+            _clientMock.Object
         );
     }
 
@@ -26,5 +24,17 @@ public class BalancesRepositoryTests
     public void Given_CryptoCurrency_When_GetBalance_Then_Returns_Balance()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
+
+        var fakeResponse = _fixture
+            .Create<IEnumerable<Account>>();
+
+        _clientMock
+            .Setup(c => c.GetAccountsAsync())
+            .ReturnsAsync(fakeResponse);
+
+        var expected = _balancesRepository
+            .GetBalance(cryptoCurrency);
+
+        Assert.NotNull(expected);
     }
 }

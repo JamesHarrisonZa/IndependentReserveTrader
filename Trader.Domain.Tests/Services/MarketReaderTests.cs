@@ -16,7 +16,7 @@ public class MarketReaderTests
     {
         var expected = 42m;
         _marketRepository
-            .Setup(br => br.GetCurrentPrice(CryptoCurrency.BTC, FiatCurrency.NZD))
+            .Setup(br => br.GetLastPrice(CryptoCurrency.BTC, FiatCurrency.NZD))
             .ReturnsAsync(expected)
             .Verifiable();
 
@@ -31,7 +31,7 @@ public class MarketReaderTests
     {
         var expected = 42m;
         _marketRepository
-            .Setup(br => br.GetCurrentPrice(CryptoCurrency.ETH, FiatCurrency.NZD))
+            .Setup(br => br.GetLastPrice(CryptoCurrency.ETH, FiatCurrency.NZD))
             .ReturnsAsync(expected)
             .Verifiable();
 
