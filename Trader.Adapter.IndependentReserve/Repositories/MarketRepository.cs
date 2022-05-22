@@ -2,7 +2,6 @@ using IndependentReserve.DotNetClientApi;
 using IndependentReserve.DotNetClientApi.Data;
 using Trader.Domain.Enums;
 using Trader.Domain.OutboundPorts;
-using Trader.Adapter.IndependentReserve.Config;
 
 namespace Trader.Adapter.IndependentReserve.Repositories;
 
@@ -10,10 +9,9 @@ public class MarketRepository : IMarketRepository
 {
     private readonly Client _client;
 
-    public MarketRepository(IndependentReserveConfig independentReserveConfig)
+    public MarketRepository(Client client)
     {
-        var apiConfig = new ApiConfig(independentReserveConfig.BaseUrl, independentReserveConfig.ApiKey, independentReserveConfig.ApiSecret);
-        _client = Client.Create(apiConfig);
+        _client = client;
     }
 
     public async Task<decimal> GetCurrentPrice(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency)

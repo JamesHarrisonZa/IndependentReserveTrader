@@ -10,12 +10,10 @@ public class BalancesRepository : IBalancesRepository
     private readonly IMarketRepository _marketRepository;
     private readonly Client _client;
 
-    public BalancesRepository(IMarketRepository marketRepository, IndependentReserveConfig independentReserveConfig)
+    public BalancesRepository(IMarketRepository marketRepository, Client client)
     {
         _marketRepository = marketRepository;
-
-        var apiConfig = new ApiConfig(independentReserveConfig.BaseUrl, independentReserveConfig.ApiKey, independentReserveConfig.ApiSecret);
-        _client = Client.Create(apiConfig);
+        _client = client;
     }
 
     public async Task<decimal> GetBalance(CryptoCurrency cryptoCurrency)
