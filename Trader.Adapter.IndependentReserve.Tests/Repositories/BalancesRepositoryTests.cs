@@ -4,7 +4,7 @@ public class BalancesRepositoryTests
 {
     private readonly Fixture _fixture;
     private readonly Mock<IMarketRepository> _marketRepositoryMock;
-    private readonly Mock<Client> _clientMock;
+    private readonly Mock<IClient> _clientMock;
     private readonly IBalancesRepository _balancesRepository;
 
     public BalancesRepositoryTests()
@@ -13,30 +13,34 @@ public class BalancesRepositoryTests
 
         _marketRepositoryMock = new Mock<IMarketRepository>();
 
-        //Cant mock this... Thanks Moq. Plan coming soon™
-        //_clientMock = new Mock<Client>();
+        _clientMock = new Mock<IClient>();
 
-        // _balancesRepository = new BalancesRepository(
-        //     _marketRepositoryMock.Object, 
-        //     _clientMock.Object
-        // );
+        _balancesRepository = new BalancesRepository(
+            _marketRepositoryMock.Object, 
+            _clientMock.Object
+        );
     }
 
     [Fact]
-    public void Given_CryptoCurrency_When_GetBalance_Then_Returns_Balance()
+    public async void Given_CryptoCurrency_When_GetBalance_Then_Returns_Balance()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
+        
+        var expected = 0.42m;
 
-        var fakeResponse = _fixture
-            .Create<IEnumerable<Account>>();
+        var fakeAccount = _fixture
+            .Build<Account>()
+            .With(a => a.CurrencyCode, CurrencyCode.Xbt)
+            .With(a => a.AvailableBalance, expected)
+            .Create();
 
-        // _clientMock
-        //     .Setup(c => c.GetAccountsAsync())
-        //     .ReturnsAsync(fakeResponse);
+        _clientMock
+            .Setup(c => c.GetAccountsAsync())
+            .ReturnsAsync(new List<Account>{ fakeAccount });
 
-        // var expected = _balancesRepository
-        //     .GetBalance(cryptoCurrency);
+        var actual = await _balancesRepository
+            .GetBalance(cryptoCurrency);
 
-        // Assert.NotNull(expected);
+        Assert.Equal(expected, actual);
     }
 }
