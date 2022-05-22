@@ -7,9 +7,9 @@ namespace Trader.Adapter.IndependentReserve.Repositories;
 public class BalancesRepository : IBalancesRepository
 {
     private readonly IMarketRepository _marketRepository;
-    private readonly Client _client;
+    private readonly IClient _client;
 
-    public BalancesRepository(IMarketRepository marketRepository, Client client)
+    public BalancesRepository(IMarketRepository marketRepository, IClient client)
     {
         _marketRepository = marketRepository;
         _client = client;
@@ -22,7 +22,7 @@ public class BalancesRepository : IBalancesRepository
         var accounts = await _client.GetAccountsAsync(); //ToDo: Share or add caching
         var currencyCodeAccount = accounts.FirstOrDefault(a => a.CurrencyCode == currencyCode);
 
-        return currencyCodeAccount?.TotalBalance ?? 0;
+        return currencyCodeAccount?.AvailableBalance ?? 0;
     }
 
     public async Task<decimal> GetBalanceValue(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency)

@@ -7,9 +7,9 @@ namespace Trader.Adapter.IndependentReserve.Repositories;
 
 public class MarketRepository : IMarketRepository
 {
-    private readonly Client _client;
+    private readonly IClient _client;
 
-    public MarketRepository(Client client)
+    public MarketRepository(IClient client)
     {
         _client = client;
     }
