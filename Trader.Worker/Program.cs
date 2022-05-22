@@ -13,7 +13,7 @@ var host = Host
     {
         services.AddSingleton<IConfiguration>(configuration);
         services.AddHostedService<Worker>();
-        services.AddTraderServices();
+        services.AddTraderServices(configuration);
     })
     .Build();
 

@@ -1,6 +1,5 @@
 using IndependentReserve.DotNetClientApi;
 using IndependentReserve.DotNetClientApi.Data;
-using Microsoft.Extensions.Configuration;
 using Trader.Domain.Enums;
 using Trader.Domain.OutboundPorts;
 using Trader.Adapter.IndependentReserve.Config;
@@ -11,10 +10,8 @@ public class MarketRepository : IMarketRepository
 {
     private readonly Client _client;
 
-    public MarketRepository(IConfiguration configuration)
+    public MarketRepository(IndependentReserveConfig independentReserveConfig)
     {
-        var independentReserveConfig = configuration.GetSection("IndependentReserve").Get<IndependentReserveConfig>();
-
         var apiConfig = new ApiConfig(independentReserveConfig.BaseUrl, independentReserveConfig.ApiKey, independentReserveConfig.ApiSecret);
         _client = Client.Create(apiConfig);
     }
