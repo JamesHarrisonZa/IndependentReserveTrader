@@ -10,9 +10,7 @@ public class BalancesRepositoryTests
     public BalancesRepositoryTests()
     {
         _fixture = new Fixture();
-
         _marketRepositoryMock = new Mock<IMarketRepository>();
-
         _clientMock = new Mock<IClient>();
 
         _balancesRepository = new BalancesRepository(

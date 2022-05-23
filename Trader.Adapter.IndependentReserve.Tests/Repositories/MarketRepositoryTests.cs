@@ -10,7 +10,6 @@ public class MarketRepositoryTests
     public MarketRepositoryTests()
     {
         _fixture = new Fixture();
-
         _clientMock = new Mock<IClient>();
 
         _marketRepository = new MarketRepository(
@@ -25,10 +24,7 @@ public class MarketRepositoryTests
         var fiatCurrency = FiatCurrency.NZD;
 
         var expectedLastPrice = 42000m;
-        var fakeMarketSummary = _fixture
-            .Build<MarketSummary>()
-            .With(ms => ms.LastPrice, expectedLastPrice)
-            .Create();
+        var fakeMarketSummary = GetFakeMarketSummary(expectedLastPrice);
         _clientMock
             .Setup(c => c.GetMarketSummaryAsync(CurrencyCode.Xbt, CurrencyCode.Nzd))
             .ReturnsAsync(fakeMarketSummary)
@@ -48,10 +44,7 @@ public class MarketRepositoryTests
         var fiatAmount = 420m;
 
         var fakeLastPrice = 42000m;
-        var fakeMarketSummary = _fixture
-            .Build<MarketSummary>()
-            .With(ms => ms.LastPrice, fakeLastPrice)
-            .Create();
+        var fakeMarketSummary = GetFakeMarketSummary(fakeLastPrice);
         _clientMock
             .Setup(c => c
                 .GetMarketSummaryAsync(CurrencyCode.Xbt, CurrencyCode.Nzd))
@@ -60,8 +53,7 @@ public class MarketRepositoryTests
 
         var expectedOrderType = OrderType.MarketBid;
         var expectedCryptoAmount = 0.01m;
-        var fakeBankOrder = _fixture
-            .Create<BankOrder>();
+        var fakeBankOrder = _fixture.Create<BankOrder>();
         _clientMock
             .Setup(c => c
                 .PlaceMarketOrderAsync(
@@ -89,10 +81,7 @@ public class MarketRepositoryTests
         var fiatAmount = 420m;
 
         var fakeLastPrice = 42000m;
-        var fakeMarketSummary = _fixture
-            .Build<MarketSummary>()
-            .With(ms => ms.LastPrice, fakeLastPrice)
-            .Create();
+        var fakeMarketSummary = GetFakeMarketSummary(fakeLastPrice);
         _clientMock
             .Setup(c => c
                 .GetMarketSummaryAsync(CurrencyCode.Xbt, CurrencyCode.Nzd))
@@ -120,5 +109,13 @@ public class MarketRepositoryTests
             .PlaceSellOrder(cryptoCurrency, fiatCurrency, fiatAmount);
 
         _clientMock.VerifyAll();
+    }
+
+    private MarketSummary GetFakeMarketSummary(decimal lastPrice)
+    {
+        return  _fixture
+            .Build<MarketSummary>()
+            .With(ms => ms.LastPrice, lastPrice)
+            .Create();
     }
 }
