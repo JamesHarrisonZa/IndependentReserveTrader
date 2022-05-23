@@ -19,7 +19,7 @@ public class MarketReader : IMarketReader
             .GetLastPrice(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
 
-    public async Task<decimal> GetEtheriumCurrentPrice()
+    public async Task<decimal> GetEtheriumLastPrice()
     {
         return await _marketRepository
             .GetLastPrice(CryptoCurrency.ETH, FiatCurrency.NZD);

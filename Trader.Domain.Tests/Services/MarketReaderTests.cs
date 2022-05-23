@@ -13,26 +13,26 @@ public class MarketReaderTests
 
     [Fact]
     public async void When_GetBitCoinLastPrice_Then_Queries_Repository()
-  {
-    var expected = 42m;
-    SetupGetLastPrice(CryptoCurrency.BTC, expected);
-
-    var actual = await _marketReader.GetBitCoinLastPrice();
-
-    _marketRepository.Verify();
-    Assert.Equal(expected, actual);
-  }
-
-  [Fact]
-    public async void When_GetEtheriumCurrentPrice_Then_Queries_Repository()
     {
-        var expected = 42m;
-        SetupGetLastPrice(CryptoCurrency.ETH, expected);
+        var expectedLastPrice = 42m;
+        SetupGetLastPrice(CryptoCurrency.BTC, expectedLastPrice);
 
-        var actual = await _marketReader.GetEtheriumCurrentPrice();
+        var actualLastPrice = await _marketReader.GetBitCoinLastPrice();
 
         _marketRepository.Verify();
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedLastPrice, actualLastPrice);
+    }
+
+    [Fact]
+    public async void When_GetEtheriumLastPrice_Then_Queries_Repository()
+    {
+        var expectedLastPrice = 42m;
+        SetupGetLastPrice(CryptoCurrency.ETH, expectedLastPrice);
+
+        var actualLastPrice = await _marketReader.GetEtheriumLastPrice();
+
+        _marketRepository.Verify();
+        Assert.Equal(expectedLastPrice, actualLastPrice);
     }
 
     private void SetupGetLastPrice(CryptoCurrency cryptoCurrency, decimal lastPrice)

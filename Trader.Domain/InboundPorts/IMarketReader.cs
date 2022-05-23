@@ -4,5 +4,5 @@ public interface IMarketReader
 {
     Task<decimal> GetBitCoinLastPrice();
 
-    Task<decimal> GetEtheriumCurrentPrice();
+    Task<decimal> GetEtheriumLastPrice();
 }
