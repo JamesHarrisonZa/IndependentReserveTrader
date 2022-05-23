@@ -19,20 +19,20 @@ public class MarketRepositoryTests
 
     [Fact]
     public async void Given_CryptoCurrency_And_FiatCurrency_When_GetLastPrice_Then_Returns_LastPrice()
-  {
-    var cryptoCurrency = CryptoCurrency.BTC;
-    var fiatCurrency = FiatCurrency.NZD;
+    {
+        var cryptoCurrency = CryptoCurrency.BTC;
+        var fiatCurrency = FiatCurrency.NZD;
 
-    var expectedLastPrice = 42000m;
-    SetupGetMarketSummary(expectedLastPrice);
+        var expectedLastPrice = 42000m;
+        SetupGetMarketSummary(expectedLastPrice);
 
-    var actualLastPrice = await _marketRepository.GetLastPrice(cryptoCurrency, fiatCurrency);
+        var actualLastPrice = await _marketRepository.GetLastPrice(cryptoCurrency, fiatCurrency);
 
-    _clientMock.Verify();
-    Assert.Equal(expectedLastPrice, actualLastPrice);
-  }
+        _clientMock.Verify();
+        Assert.Equal(expectedLastPrice, actualLastPrice);
+    }
 
-  [Fact]
+    [Fact]
     public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceBuyOrder_Then_PlacesOrder_With_MarketBid()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
@@ -54,27 +54,27 @@ public class MarketRepositoryTests
 
     [Fact]
     public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceSellOrder_Then_PlacesOrder_With_MarketOffer()
-  {
-    var cryptoCurrency = CryptoCurrency.BTC;
-    var fiatCurrency = FiatCurrency.NZD;
-    var fiatAmount = 420m;
-
-    var fakeLastPrice = 42000m;
-    SetupGetMarketSummary(fakeLastPrice);
-
-    var expectedOrderType = OrderType.MarketOffer;
-    var expectedCryptoAmount = 0.01m;
-    SetupPlaceMarketOrder(expectedOrderType, expectedCryptoAmount);
-
-    await _marketRepository
-        .PlaceSellOrder(cryptoCurrency, fiatCurrency, fiatAmount);
-
-    _clientMock.VerifyAll();
-  }
-
-  private MarketSummary GetFakeMarketSummary(decimal lastPrice)
     {
-        return  _fixture
+        var cryptoCurrency = CryptoCurrency.BTC;
+        var fiatCurrency = FiatCurrency.NZD;
+        var fiatAmount = 420m;
+
+        var fakeLastPrice = 42000m;
+        SetupGetMarketSummary(fakeLastPrice);
+
+        var expectedOrderType = OrderType.MarketOffer;
+        var expectedCryptoAmount = 0.01m;
+        SetupPlaceMarketOrder(expectedOrderType, expectedCryptoAmount);
+
+        await _marketRepository
+            .PlaceSellOrder(cryptoCurrency, fiatCurrency, fiatAmount);
+
+        _clientMock.VerifyAll();
+    }
+
+    private MarketSummary GetFakeMarketSummary(decimal lastPrice)
+    {
+        return _fixture
             .Build<MarketSummary>()
             .With(ms => ms.LastPrice, lastPrice)
             .Create();
@@ -95,17 +95,17 @@ public class MarketRepositoryTests
         var fakeBankOrder = _fixture
             .Create<BankOrder>();
 
-          _clientMock
-              .Setup(c => c
-                  .PlaceMarketOrderAsync(
-                    CurrencyCode.Xbt,
-                    CurrencyCode.Nzd,
-                    expectedOrderType,
-                    expectedCryptoAmount,
-                    null,
-                    null
-              ))
-              .ReturnsAsync(fakeBankOrder)
-              .Verifiable();
+        _clientMock
+            .Setup(c => c
+                .PlaceMarketOrderAsync(
+                  CurrencyCode.Xbt,
+                  CurrencyCode.Nzd,
+                  expectedOrderType,
+                  expectedCryptoAmount,
+                  null,
+                  null
+            ))
+            .ReturnsAsync(fakeBankOrder)
+            .Verifiable();
     }
 }
