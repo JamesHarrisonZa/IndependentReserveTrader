@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
         var independentReserveConfig = configuration.GetSection("IndependentReserve").Get<IndependentReserveConfig>();
         var apiConfig = new ApiConfig(independentReserveConfig.BaseUrl, independentReserveConfig.ApiKey, independentReserveConfig.ApiSecret);
         var client = Client.Create(apiConfig);
-        services.AddSingleton<Client>(client);
+        services.AddSingleton<IClient>(client);
 
         services.AddSingleton<IBalancesRepository, BalancesRepository>();
         services.AddSingleton<IMarketRepository, MarketRepository>();
