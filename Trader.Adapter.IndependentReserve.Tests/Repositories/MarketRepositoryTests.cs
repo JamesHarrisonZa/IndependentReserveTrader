@@ -44,19 +44,7 @@ public class MarketRepositoryTests
 
         var expectedOrderType = OrderType.MarketBid;
         var expectedCryptoAmount = 0.01m;
-        var fakeBankOrder = _fixture.Create<BankOrder>();
-        _clientMock
-            .Setup(c => c
-                .PlaceMarketOrderAsync(
-                  CurrencyCode.Xbt, 
-                  CurrencyCode.Nzd, 
-                  expectedOrderType, 
-                  expectedCryptoAmount, 
-                  null, 
-                  null
-            ))
-            .ReturnsAsync(fakeBankOrder)
-            .Verifiable();
+        SetupPlaceMarketOrder(expectedOrderType, expectedCryptoAmount);
 
         await _marketRepository
             .PlaceBuyOrder(cryptoCurrency, fiatCurrency, fiatAmount);
@@ -66,38 +54,25 @@ public class MarketRepositoryTests
 
     [Fact]
     public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceSellOrder_Then_PlacesOrder_With_MarketOffer()
-    {
-        var cryptoCurrency = CryptoCurrency.BTC;
-        var fiatCurrency = FiatCurrency.NZD;
-        var fiatAmount = 420m;
+  {
+    var cryptoCurrency = CryptoCurrency.BTC;
+    var fiatCurrency = FiatCurrency.NZD;
+    var fiatAmount = 420m;
 
-        var fakeLastPrice = 42000m;
-        SetupGetMarketSummary(fakeLastPrice);
+    var fakeLastPrice = 42000m;
+    SetupGetMarketSummary(fakeLastPrice);
 
-        var expectedOrderType = OrderType.MarketOffer;
-        var expectedCryptoAmount = 0.01m;
-        var fakeBankOrder = _fixture
-            .Create<BankOrder>();
-        _clientMock
-            .Setup(c => c
-                .PlaceMarketOrderAsync(
-                  CurrencyCode.Xbt, 
-                  CurrencyCode.Nzd, 
-                  expectedOrderType, 
-                  expectedCryptoAmount, 
-                  null, 
-                  null
-            ))
-            .ReturnsAsync(fakeBankOrder)
-            .Verifiable();
+    var expectedOrderType = OrderType.MarketOffer;
+    var expectedCryptoAmount = 0.01m;
+    SetupPlaceMarketOrder(expectedOrderType, expectedCryptoAmount);
 
-        await _marketRepository
-            .PlaceSellOrder(cryptoCurrency, fiatCurrency, fiatAmount);
+    await _marketRepository
+        .PlaceSellOrder(cryptoCurrency, fiatCurrency, fiatAmount);
 
-        _clientMock.VerifyAll();
-    }
+    _clientMock.VerifyAll();
+  }
 
-    private MarketSummary GetFakeMarketSummary(decimal lastPrice)
+  private MarketSummary GetFakeMarketSummary(decimal lastPrice)
     {
         return  _fixture
             .Build<MarketSummary>()
@@ -113,5 +88,24 @@ public class MarketRepositoryTests
             .Setup(c => c.GetMarketSummaryAsync(CurrencyCode.Xbt, CurrencyCode.Nzd))
             .ReturnsAsync(fakeMarketSummary)
             .Verifiable();
+    }
+
+    private void SetupPlaceMarketOrder(OrderType expectedOrderType, decimal expectedCryptoAmount)
+    {
+        var fakeBankOrder = _fixture
+            .Create<BankOrder>();
+
+          _clientMock
+              .Setup(c => c
+                  .PlaceMarketOrderAsync(
+                    CurrencyCode.Xbt,
+                    CurrencyCode.Nzd,
+                    expectedOrderType,
+                    expectedCryptoAmount,
+                    null,
+                    null
+              ))
+              .ReturnsAsync(fakeBankOrder)
+              .Verifiable();
     }
 }
