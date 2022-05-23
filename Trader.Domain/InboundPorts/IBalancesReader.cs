@@ -2,8 +2,8 @@ namespace Trader.Domain.InboundPorts;
 
 public interface IBalancesReader
 {
-    Task<decimal> GetBitCoinBalance();
-    Task<decimal> GetBitCoinBalanceValue();
+    Task<decimal> GetBitcoinBalance();
+    Task<decimal> GetBitcoinBalanceValue();
 
     Task<decimal> GetEtheriumBalance();
     Task<decimal> GetEtheriumBalanceValue();

@@ -12,24 +12,24 @@ public class BalancesReaderTests
     }
 
     [Fact]
-    public async void When_GetBitCoinBalance_Then_Queries_Repository()
+    public async void When_GetBitcoinBalance_Then_Queries_Repository()
     {
         var expectedBalance = 0.42m;
         SetupGetBalance(CryptoCurrency.BTC, expectedBalance);
 
-        var actualBalance = await _balancesReader.GetBitCoinBalance();
+        var actualBalance = await _balancesReader.GetBitcoinBalance();
 
         _balancesRepository.Verify();
         Assert.Equal(expectedBalance, actualBalance);
     }
 
     [Fact]
-    public async void When_GetBitCoinBalanceValue_Then_Queries_Repository()
+    public async void When_GetBitcoinBalanceValue_Then_Queries_Repository()
     {
         var expectedBalanceValue = 4200m;
         SetupGetBalanceValue(CryptoCurrency.BTC, expectedBalanceValue);
 
-        var actualBalanceValue = await _balancesReader.GetBitCoinBalanceValue();
+        var actualBalanceValue = await _balancesReader.GetBitcoinBalanceValue();
 
         _balancesRepository.Verify();
         Assert.Equal(expectedBalanceValue, actualBalanceValue);

@@ -28,13 +28,13 @@ public class Worker : BackgroundService
 
     private async Task<Table> GetBalancesTable()
     {
-        var btcBalance = await _balancesReader.GetBitCoinBalance();
+        var btcBalance = await _balancesReader.GetBitcoinBalance();
         var ethBalance = await _balancesReader.GetEtheriumBalance();
 
-        var btcCurrentPrice = await _marketReader.GetBitCoinLastPrice();
+        var btcCurrentPrice = await _marketReader.GetBitcoinLastPrice();
         var ethCurrentPrice = await _marketReader.GetEtheriumLastPrice();
 
-        var btcValue = await _balancesReader.GetBitCoinBalanceValue();
+        var btcValue = await _balancesReader.GetBitcoinBalanceValue();
         var ethValue = await _balancesReader.GetEtheriumBalanceValue();
 
         var table = new Table();

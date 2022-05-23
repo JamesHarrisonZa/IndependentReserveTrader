@@ -13,13 +13,13 @@ public class BalancesReader : IBalancesReader
         _balancesRepository = balancesRepository;
     }
 
-    public async Task<decimal> GetBitCoinBalance()
+    public async Task<decimal> GetBitcoinBalance()
     {
         return await _balancesRepository
             .GetBalance(CryptoCurrency.BTC);
     }
 
-    public async Task<decimal> GetBitCoinBalanceValue()
+    public async Task<decimal> GetBitcoinBalanceValue()
     {
         return await _balancesRepository
             .GetBalanceValue(CryptoCurrency.BTC, FiatCurrency.NZD);

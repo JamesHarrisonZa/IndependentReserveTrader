@@ -12,12 +12,12 @@ public class MarketReaderTests
     }
 
     [Fact]
-    public async void When_GetBitCoinLastPrice_Then_Queries_Repository()
+    public async void When_GetBitcoinLastPrice_Then_Queries_Repository()
     {
         var expectedLastPrice = 42m;
         SetupGetLastPrice(CryptoCurrency.BTC, expectedLastPrice);
 
-        var actualLastPrice = await _marketReader.GetBitCoinLastPrice();
+        var actualLastPrice = await _marketReader.GetBitcoinLastPrice();
 
         _marketRepository.Verify();
         Assert.Equal(expectedLastPrice, actualLastPrice);
