@@ -19,7 +19,8 @@ public class MarketRepository : IMarketRepository
         var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
         var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
 
-        var currencyCodeSummary = await _client.GetMarketSummaryAsync(currencyCode, fiatCurrencyCode); //ToDo: Share or add caching
+        var currencyCodeSummary = await _client
+            .GetMarketSummaryAsync(currencyCode, fiatCurrencyCode); //ToDo: Share or add caching
         
         return currencyCodeSummary?.LastPrice ?? 0;
     }
@@ -33,7 +34,8 @@ public class MarketRepository : IMarketRepository
 
         Console.WriteLine($"Placing a buy order for {cryptoAmount}");
 
-        var response = await _client.PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketBid, cryptoAmount);
+        var response = await _client
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketBid, cryptoAmount);
     }
 
     public async Task PlaceSellOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
@@ -45,7 +47,8 @@ public class MarketRepository : IMarketRepository
 
         Console.WriteLine($"Placing a sell order for {cryptoAmount}");
 
-        var response = await _client.PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoAmount);
+        var response = await _client
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoAmount);
     }
 
     private async Task<decimal> GetCryptoAmount(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
