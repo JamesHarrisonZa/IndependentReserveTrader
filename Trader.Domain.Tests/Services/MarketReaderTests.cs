@@ -12,32 +12,34 @@ public class MarketReaderTests
     }
 
     [Fact]
-    public async void When_GetBitCoinCurrentPrice_Then_Queries_Repository()
-    {
-        var expected = 42m;
-        _marketRepository
-            .Setup(br => br.GetLastPrice(CryptoCurrency.BTC, FiatCurrency.NZD))
-            .ReturnsAsync(expected)
-            .Verifiable();
+    public async void When_GetBitCoinLastPrice_Then_Queries_Repository()
+  {
+    var expected = 42m;
+    SetupGetLastPrice(CryptoCurrency.BTC, expected);
 
-        var actual = await _marketReader.GetBitCoinCurrentPrice();
+    var actual = await _marketReader.GetBitCoinLastPrice();
 
-        _marketRepository.Verify();
-        Assert.Equal(expected, actual);
-    }
+    _marketRepository.Verify();
+    Assert.Equal(expected, actual);
+  }
 
-    [Fact]
+  [Fact]
     public async void When_GetEtheriumCurrentPrice_Then_Queries_Repository()
     {
         var expected = 42m;
-        _marketRepository
-            .Setup(br => br.GetLastPrice(CryptoCurrency.ETH, FiatCurrency.NZD))
-            .ReturnsAsync(expected)
-            .Verifiable();
+        SetupGetLastPrice(CryptoCurrency.ETH, expected);
 
         var actual = await _marketReader.GetEtheriumCurrentPrice();
 
         _marketRepository.Verify();
         Assert.Equal(expected, actual);
+    }
+
+    private void SetupGetLastPrice(CryptoCurrency cryptoCurrency, decimal lastPrice)
+    {
+        _marketRepository
+            .Setup(br => br.GetLastPrice(cryptoCurrency, FiatCurrency.NZD))
+            .ReturnsAsync(lastPrice)
+            .Verifiable();
     }
 }

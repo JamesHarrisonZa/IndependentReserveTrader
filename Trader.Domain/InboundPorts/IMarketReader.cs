@@ -2,7 +2,7 @@ namespace Trader.Domain.InboundPorts;
 
 public interface IMarketReader
 {
-    Task<decimal> GetBitCoinCurrentPrice();
+    Task<decimal> GetBitCoinLastPrice();
 
     Task<decimal> GetEtheriumCurrentPrice();
 }

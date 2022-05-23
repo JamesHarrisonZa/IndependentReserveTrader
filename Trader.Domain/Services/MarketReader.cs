@@ -13,7 +13,7 @@ public class MarketReader : IMarketReader
         _marketRepository = balancesRepository;
     }
 
-    public async Task<decimal> GetBitCoinCurrentPrice()
+    public async Task<decimal> GetBitCoinLastPrice()
     {
         return await _marketRepository
             .GetLastPrice(CryptoCurrency.BTC, FiatCurrency.NZD);

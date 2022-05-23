@@ -31,7 +31,7 @@ public class Worker : BackgroundService
         var btcBalance = await _balancesReader.GetBitCoinBalance();
         var ethBalance = await _balancesReader.GetEtheriumBalance();
 
-        var btcCurrentPrice = await _marketReader.GetBitCoinCurrentPrice();
+        var btcCurrentPrice = await _marketReader.GetBitCoinLastPrice();
         var ethCurrentPrice = await _marketReader.GetEtheriumCurrentPrice();
 
         var btcValue = await _balancesReader.GetBitCoinBalanceValue();
