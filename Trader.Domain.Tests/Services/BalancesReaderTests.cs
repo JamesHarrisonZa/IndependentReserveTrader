@@ -7,67 +7,71 @@ public class BalancesReaderTests
 
     public BalancesReaderTests()
     {
-      _balancesRepository = new Mock<IBalancesRepository>();
-      _balancesReader = new BalancesReader(_balancesRepository.Object);
+        _balancesRepository = new Mock<IBalancesRepository>();
+        _balancesReader = new BalancesReader(_balancesRepository.Object);
     }
 
     [Fact]
     public async void When_GetBitCoinBalance_Then_Queries_Repository()
     {
-        var expected = 0.42m;
-        _balancesRepository
-            .Setup(br => br.GetBalance(CryptoCurrency.BTC))
-            .ReturnsAsync(expected)
-            .Verifiable();
+        var expectedBalance = 0.42m;
+        SetupGetBalance(CryptoCurrency.BTC, expectedBalance);
 
-        var actual = await _balancesReader.GetBitCoinBalance();
+        var actualBalance = await _balancesReader.GetBitCoinBalance();
 
         _balancesRepository.Verify();
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedBalance, actualBalance);
     }
 
     [Fact]
     public async void When_GetBitCoinBalanceValue_Then_Queries_Repository()
     {
-        var expected = 4200m;
-        _balancesRepository
-            .Setup(br => br.GetBalanceValue(CryptoCurrency.BTC, FiatCurrency.NZD))
-            .ReturnsAsync(expected)
-            .Verifiable();
+        var expectedBalanceValue = 4200m;
+        SetupGetBalanceValue(CryptoCurrency.BTC, expectedBalanceValue);
 
-        var actual = await _balancesReader.GetBitCoinBalanceValue();
+        var actualBalanceValue = await _balancesReader.GetBitCoinBalanceValue();
 
         _balancesRepository.Verify();
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedBalanceValue, actualBalanceValue);
     }
 
     [Fact]
     public async void When_GetEtheriumBalance_Then_Queries_Repository()
     {
-        var expected = 0.42m;
-        _balancesRepository
-            .Setup(br => br.GetBalance(CryptoCurrency.ETH))
-            .ReturnsAsync(expected)
-            .Verifiable();
+        var expectedBalance = 0.42m;
+        SetupGetBalance(CryptoCurrency.ETH, expectedBalance);
 
-        var actual = await _balancesReader.GetEtheriumBalance();
+        var actualBalance = await _balancesReader.GetEtheriumBalance();
 
         _balancesRepository.Verify();
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedBalance, actualBalance);
     }
 
     [Fact]
     public async void When_GetEtheriumBalanceValue_Then_Queries_Repository()
     {
-        var expected = 4200m;
-        _balancesRepository
-            .Setup(br => br.GetBalanceValue(CryptoCurrency.ETH, FiatCurrency.NZD))
-            .ReturnsAsync(expected)
-            .Verifiable();
+        var expectedBalanceValue = 4200m;
+        SetupGetBalanceValue(CryptoCurrency.ETH, expectedBalanceValue);
 
-        var actual = await _balancesReader.GetEtheriumBalanceValue();
+        var actualBalanceValue = await _balancesReader.GetEtheriumBalanceValue();
 
         _balancesRepository.Verify();
-        Assert.Equal(expected, actual);
+        Assert.Equal(expectedBalanceValue, actualBalanceValue);
+    }
+
+    private void SetupGetBalance(CryptoCurrency cryptoCurrency, decimal balance)
+    {
+        _balancesRepository
+            .Setup(br => br.GetBalance(cryptoCurrency))
+            .ReturnsAsync(balance)
+            .Verifiable();
+    }
+
+    private void SetupGetBalanceValue(CryptoCurrency cryptoCurrency, decimal balanceValue)
+    {
+        _balancesRepository
+            .Setup(br => br.GetBalanceValue(cryptoCurrency, FiatCurrency.NZD))
+            .ReturnsAsync(balanceValue)
+            .Verifiable();
     }
 }
