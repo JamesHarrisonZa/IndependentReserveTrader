@@ -15,25 +15,25 @@ public class BalancesReader : IBalancesReader
 
     public async Task<decimal> GetBitCoinBalance()
     {
-      return await _balancesRepository
-          .GetBalance(CryptoCurrency.BTC);
+        return await _balancesRepository
+            .GetBalance(CryptoCurrency.BTC);
     }
 
     public async Task<decimal> GetBitCoinBalanceValue()
     {
-      return await _balancesRepository
-          .GetBalanceValue(CryptoCurrency.BTC, FiatCurrency.NZD);
+        return await _balancesRepository
+            .GetBalanceValue(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
 
     public async Task<decimal> GetEtheriumBalance()
     {
-      return await _balancesRepository
-          .GetBalance(CryptoCurrency.ETH);
+        return await _balancesRepository
+            .GetBalance(CryptoCurrency.ETH);
     }
 
     public async Task<decimal> GetEtheriumBalanceValue()
     {
-      return await _balancesRepository
-          .GetBalanceValue(CryptoCurrency.ETH, FiatCurrency.NZD);
+        return await _balancesRepository
+            .GetBalanceValue(CryptoCurrency.ETH, FiatCurrency.NZD);
     }
 }

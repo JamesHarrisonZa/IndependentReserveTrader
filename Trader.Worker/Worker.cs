@@ -55,15 +55,15 @@ public class Worker : BackgroundService
         await AnsiConsole.Status()
               .Spinner(Spinner.Known.Aesthetic)
               .SpinnerStyle(Style.Parse("green"))
-              .StartAsync("Doing stuff... 🚀", async ctx => 
+              .StartAsync("Doing stuff... 🚀", async ctx =>
               {
-                while (!stoppingToken.IsCancellationRequested)
-                {
-                    // AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
+                  while (!stoppingToken.IsCancellationRequested)
+                  {
+                      // AnsiConsole.MarkupLine("[bold]Doing something clever 🧠[/]");
 
-                    var fiveSeconds = 5000;
-                    await Task.Delay(fiveSeconds, stoppingToken);
-                }
+                      var fiveSeconds = 5000;
+                      await Task.Delay(fiveSeconds, stoppingToken);
+                  }
               });
     }
 }

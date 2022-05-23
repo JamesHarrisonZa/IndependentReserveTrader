@@ -15,13 +15,13 @@ public class MarketReader : IMarketReader
 
     public async Task<decimal> GetBitCoinCurrentPrice()
     {
-      return await _marketRepository
-          .GetLastPrice(CryptoCurrency.BTC, FiatCurrency.NZD);
+        return await _marketRepository
+            .GetLastPrice(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
-    
+
     public async Task<decimal> GetEtheriumCurrentPrice()
     {
-      return await _marketRepository
-          .GetLastPrice(CryptoCurrency.ETH, FiatCurrency.NZD);
+        return await _marketRepository
+            .GetLastPrice(CryptoCurrency.ETH, FiatCurrency.NZD);
     }
 }

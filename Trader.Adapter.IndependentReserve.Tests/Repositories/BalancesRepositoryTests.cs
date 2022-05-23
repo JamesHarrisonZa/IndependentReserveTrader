@@ -16,7 +16,7 @@ public class BalancesRepositoryTests
         _clientMock = new Mock<IClient>();
 
         _balancesRepository = new BalancesRepository(
-            _marketRepositoryMock.Object, 
+            _marketRepositoryMock.Object,
             _clientMock.Object
         );
     }
@@ -40,7 +40,7 @@ public class BalancesRepositoryTests
         Assert.Equal(expectedBalance, actualBalance);
     }
 
-  [Fact]
+    [Fact]
     public async void Given_CryptoCurrency_And_FiatCurrency_When_GetBalanceValue_Then_Returns_GetBalanceValue()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
@@ -56,7 +56,7 @@ public class BalancesRepositoryTests
             .Setup(mr => mr.GetLastPrice(cryptoCurrency, fiatCurrency))
             .ReturnsAsync(42000m)
             .Verifiable();
-        
+
         var expectedBalanceValue = 17640m;
 
         var actualBalanceValue = await _balancesRepository

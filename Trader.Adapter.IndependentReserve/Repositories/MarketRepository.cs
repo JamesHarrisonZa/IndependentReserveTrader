@@ -21,7 +21,7 @@ public class MarketRepository : IMarketRepository
 
         var currencyCodeSummary = await _client
             .GetMarketSummaryAsync(currencyCode, fiatCurrencyCode); //ToDo: Share or add caching
-        
+
         return currencyCodeSummary?.LastPrice ?? 0;
     }
 
@@ -55,7 +55,7 @@ public class MarketRepository : IMarketRepository
     {
         var currentPrice = await GetLastPrice(cryptoCurrency, fiatCurrency);
 
-        var cryptoAmount = Math.Round(fiatAmount/currentPrice, 8);
+        var cryptoAmount = Math.Round(fiatAmount / currentPrice, 8);
 
         return cryptoAmount;
     }

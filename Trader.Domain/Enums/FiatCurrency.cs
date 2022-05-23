@@ -2,11 +2,12 @@ using System.Runtime.Serialization;
 
 namespace Trader.Domain.Enums;
 
-public enum FiatCurrency {
+public enum FiatCurrency
+{
 
-  [EnumMember(Value = "NZD")]
-  NZD,
+    [EnumMember(Value = "NZD")]
+    NZD,
 
-  [EnumMember(Value = "USD")]
-  USD
+    [EnumMember(Value = "USD")]
+    USD
 }

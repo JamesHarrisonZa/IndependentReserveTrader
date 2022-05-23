@@ -2,11 +2,12 @@ using System.Runtime.Serialization;
 
 namespace Trader.Domain.Enums;
 
-public enum CryptoCurrency {
+public enum CryptoCurrency
+{
 
-  [EnumMember(Value = "BTC")]
-  BTC,
+    [EnumMember(Value = "BTC")]
+    BTC,
 
-  [EnumMember(Value = "ETH")]
-  ETH
+    [EnumMember(Value = "ETH")]
+    ETH
 }
