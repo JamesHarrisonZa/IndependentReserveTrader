@@ -7,19 +7,24 @@ public class MarketWriterTests
 
     public MarketWriterTests()
     {
-      _marketRepository = new Mock<IMarketRepository>();
-      _marketWriter = new MarketWriter(_marketRepository.Object);
+        _marketRepository = new Mock<IMarketRepository>();
+        _marketWriter = new MarketWriter(_marketRepository.Object);
     }
 
     [Fact]
     public async void When_PlaceBitcoinBuyOrder_Then_Calls_Repository()
     {
-        _marketRepository
-            .Setup(mr => mr.PlaceBuyOrder(CryptoCurrency.BTC, FiatCurrency.NZD, It.IsAny<decimal>()))
-            .Verifiable();
+        SetupPlaceBuyOrder(CryptoCurrency.BTC);
 
         await _marketWriter.PlaceBitcoinBuyOrder();
 
         _marketRepository.Verify();
+    }
+
+    private void SetupPlaceBuyOrder(CryptoCurrency cryptoCurrency)
+    {
+        _marketRepository
+            .Setup(mr => mr.PlaceBuyOrder(cryptoCurrency, FiatCurrency.NZD, It.IsAny<decimal>()))
+            .Verifiable();
     }
 }
