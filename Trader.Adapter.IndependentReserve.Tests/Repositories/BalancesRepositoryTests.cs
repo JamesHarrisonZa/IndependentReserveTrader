@@ -25,16 +25,12 @@ public class BalancesRepositoryTests
         var cryptoCurrency = CryptoCurrency.BTC;
 
         var expectedBalance = 0.42m;
-        var fakeAccount = GetFakeBtcAccount(expectedBalance);
-        _clientMock
-            .Setup(c => c.GetAccountsAsync())
-            .ReturnsAsync(new List<Account> { fakeAccount })
-            .Verifiable();
+        SetupGetAccounts(expectedBalance);
 
         var actualBalance = await _balancesRepository
             .GetBalance(cryptoCurrency);
 
-        Mock.VerifyAll();
+        _clientMock.Verify();
         Assert.Equal(expectedBalance, actualBalance);
     }
 
@@ -44,24 +40,28 @@ public class BalancesRepositoryTests
         var cryptoCurrency = CryptoCurrency.BTC;
         var fiatCurrency = FiatCurrency.NZD;
 
-        var fakeAccount = GetFakeBtcAccount(0.42m);
-        _clientMock
-            .Setup(c => c.GetAccountsAsync())
-            .ReturnsAsync(new List<Account> { fakeAccount })
-            .Verifiable();
+        var balance = 0.42m;
+        SetupGetAccounts(balance);
 
-        _marketRepositoryMock
-            .Setup(mr => mr.GetLastPrice(cryptoCurrency, fiatCurrency))
-            .ReturnsAsync(42000m)
-            .Verifiable();
+        var lastPrice = 42000m;
+        SetupGetLastPrice(cryptoCurrency, fiatCurrency, lastPrice);
 
         var expectedBalanceValue = 17640m;
 
         var actualBalanceValue = await _balancesRepository
             .GetBalanceValue(cryptoCurrency, fiatCurrency);
 
-        Mock.VerifyAll();
+        _clientMock.Verify();
+        _marketRepositoryMock.Verify();
         Assert.Equal(expectedBalanceValue, actualBalanceValue);
+    }
+
+    private void SetupGetLastPrice(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal lastPrice)
+    {
+        _marketRepositoryMock
+            .Setup(mr => mr.GetLastPrice(cryptoCurrency, fiatCurrency))
+            .ReturnsAsync(lastPrice)
+            .Verifiable();
     }
 
     private Account GetFakeBtcAccount(decimal balance)
@@ -71,5 +71,15 @@ public class BalancesRepositoryTests
             .With(a => a.CurrencyCode, CurrencyCode.Xbt)
             .With(a => a.AvailableBalance, balance)
             .Create();
+    }
+
+    private void SetupGetAccounts(decimal balance)
+    {
+        var fakeAccount = GetFakeBtcAccount(balance);
+
+        _clientMock
+            .Setup(c => c.GetAccountsAsync())
+            .ReturnsAsync(new List<Account> { fakeAccount })
+            .Verifiable();
     }
 }
