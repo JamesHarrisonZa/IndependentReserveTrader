@@ -9,4 +9,6 @@ public interface IMarketRepository
     Task PlaceBuyOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount);
 
     Task PlaceSellOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount);
+    
+    Task GetLastClosedOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency);
 }

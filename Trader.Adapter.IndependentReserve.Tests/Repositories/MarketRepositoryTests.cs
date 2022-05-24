@@ -72,6 +72,24 @@ public class MarketRepositoryTests
         _clientMock.VerifyAll();
     }
 
+    [Fact]
+    public async void Given_CryptoCurrency_FiatCurrency_When_GetLastClosedOrder_Then_Returns_OrderDetails()
+    {
+        var cryptoCurrency = CryptoCurrency.BTC;
+        var fiatCurrency = FiatCurrency.NZD;
+
+        var fakeClosedOrders = _fixture
+            .Create<Page<BankHistoryOrder>>();
+        _clientMock
+            .Setup(c => c.GetClosedOrdersAsync(CurrencyCode.Xbt, CurrencyCode.Nzd, It.IsAny<int>(), It.IsAny<int>()))
+            .ReturnsAsync(fakeClosedOrders);
+
+        await _marketRepository
+            .GetLastClosedOrder(cryptoCurrency, fiatCurrency);
+
+        _clientMock.VerifyAll();
+    }
+
     private MarketSummary GetFakeMarketSummary(decimal lastPrice)
     {
         return _fixture
