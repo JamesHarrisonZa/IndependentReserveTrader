@@ -1,4 +1,5 @@
 using Trader.Domain.Enums;
+using Trader.Domain.Models;
 using Trader.Domain.InboundPorts;
 using Trader.Domain.OutboundPorts;
 
@@ -23,5 +24,11 @@ public class MarketReader : IMarketReader
     {
         return await _marketRepository
             .GetLastPrice(CryptoCurrency.ETH, FiatCurrency.NZD);
+    }
+
+    public async Task<ClosedOrder> GetBitcoinLastClosedOrder()
+    {
+        return await _marketRepository
+            .GetLastClosedOrder(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
 }

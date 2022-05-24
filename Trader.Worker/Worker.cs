@@ -52,6 +52,8 @@ public class Worker : BackgroundService
 
     private async Task Update(CancellationToken stoppingToken)
     {
+        await _marketReader.GetBitcoinLastClosedOrder();
+
         await AnsiConsole.Status()
               .Spinner(Spinner.Known.Aesthetic)
               .SpinnerStyle(Style.Parse("green"))

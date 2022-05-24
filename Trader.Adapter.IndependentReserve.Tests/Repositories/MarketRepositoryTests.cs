@@ -84,7 +84,7 @@ public class MarketRepositoryTests
             .Setup(c => c.GetClosedOrdersAsync(CurrencyCode.Xbt, CurrencyCode.Nzd, It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(fakeClosedOrders);
 
-        await _marketRepository
+        var lastClosedOrder = await _marketRepository
             .GetLastClosedOrder(cryptoCurrency, fiatCurrency);
 
         _clientMock.VerifyAll();

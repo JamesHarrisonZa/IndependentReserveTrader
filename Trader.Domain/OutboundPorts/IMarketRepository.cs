@@ -1,4 +1,5 @@
 using Trader.Domain.Enums;
+using Trader.Domain.Models;
 
 namespace Trader.Domain.OutboundPorts;
 
@@ -10,5 +11,5 @@ public interface IMarketRepository
 
     Task PlaceSellOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount);
     
-    Task GetLastClosedOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency);
+    Task<ClosedOrder> GetLastClosedOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency);
 }
