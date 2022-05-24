@@ -20,13 +20,13 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var balancesTable = await GetBalancesTable();
-        AnsiConsole.Write(balancesTable);
+        await WriteBalancesTable();
+        await WriteLastBitcoinOrder();
 
         await Update(stoppingToken);
     }
 
-    private async Task<Table> GetBalancesTable()
+    private async Task WriteBalancesTable()
     {
         var btcBalance = await _balancesReader.GetBitcoinBalance();
         var ethBalance = await _balancesReader.GetEtheriumBalance();
@@ -47,13 +47,26 @@ public class Worker : BackgroundService
         table.AddRow("[cyan1]BTC[/]", $"[cyan1]{btcCurrentPrice}[/]", $"[cyan1]{btcBalance}[/]", $"[cyan1]{btcValue}[/]");
         table.AddRow("[chartreuse2]ETH[/]", $"[chartreuse2]{ethCurrentPrice}[/]", $"[chartreuse2]{ethBalance}[/]", $"[chartreuse2]{ethValue}[/]");
 
-        return table;
+        AnsiConsole.Write(table);
+    }
+
+    private async Task WriteLastBitcoinOrder()
+    {
+        var lastClosedOrder = await _marketReader.GetBitcoinLastClosedOrder();
+
+        AnsiConsole.MarkupLine(@$"
+        💲[bold]Last Bitcoin Order[/]💲
+          [cyan1]Created:[/] [yellow1]{lastClosedOrder.CreatedUtc}[/], 
+          [cyan1]Volume:[/] [yellow1]{lastClosedOrder.Volume}[/],
+          [cyan1]Value:[/] [yellow1]{lastClosedOrder.Value} {lastClosedOrder.FiatCurrency}[/],
+          [cyan1]AvgPrice:[/] [yellow1]{lastClosedOrder.AvgPrice}[/],
+          [cyan1]FeePercent:[/] [yellow1]{lastClosedOrder.FeePercent}[/],
+          [cyan1]Outstanding:[/] [yellow1]{lastClosedOrder.Outstanding}[/],
+          ");
     }
 
     private async Task Update(CancellationToken stoppingToken)
     {
-        await _marketReader.GetBitcoinLastClosedOrder();
-
         await AnsiConsole.Status()
               .Spinner(Spinner.Known.Aesthetic)
               .SpinnerStyle(Style.Parse("green"))
