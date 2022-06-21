@@ -23,11 +23,6 @@ public class Worker : BackgroundService
     {
         var lastClosedOrder = await _marketReader.GetBitcoinLastClosedOrder();
 
-        await Update(stoppingToken, lastClosedOrder);
-    }
-
-    private async Task Update(CancellationToken stoppingToken, ClosedOrder lastClosedOrder)
-    {
         await AnsiConsole.Status()
             .Spinner(Spinner.Known.Aesthetic)
             .SpinnerStyle(Style.Parse("green"))
@@ -35,16 +30,22 @@ public class Worker : BackgroundService
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    AnsiConsole.Clear();
-
-                    await WriteBalancesTable();
-                    await WriteLastOrderBarChart(lastClosedOrder);
-                    WriteLastUpdated();
+                    await Update(lastClosedOrder);
 
                     var fiveSeconds = 5000;
                     await Task.Delay(fiveSeconds, stoppingToken);
                 }
             });
+    }
+
+    private async Task Update(ClosedOrder lastClosedOrder)
+    {
+        AnsiConsole.Clear();
+
+        await WriteBalancesTable();
+        await WriteLastOrderBarChart(lastClosedOrder);
+
+        WriteLastUpdated();
     }
 
     private async Task WriteBalancesTable()
