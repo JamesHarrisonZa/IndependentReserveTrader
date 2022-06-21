@@ -33,8 +33,8 @@ public class Worker : BackgroundService
                 {
                     await Update(lastClosedOrder);
 
-                    var fiveSeconds = 5000;
-                    await Task.Delay(fiveSeconds, stoppingToken);
+                    var oneMinute = 1 * 60 * 1000;
+                    await Task.Delay(oneMinute, stoppingToken);
                 }
             });
     }
@@ -54,8 +54,10 @@ public class Worker : BackgroundService
         var btcBalance = await _balancesReader.GetBitcoinBalance();
         var ethBalance = await _balancesReader.GetEtheriumBalance();
 
-        var btcCurrentPrice = await _marketReader.GetBitcoinLastPrice(FiatCurrency.NZD);
-        var ethCurrentPrice = await _marketReader.GetEtheriumLastPrice(FiatCurrency.NZD);
+        var btcMarketPriceUsd = await _marketReader.GetBitcoinLastPrice(FiatCurrency.USD);
+        var btcMarketPriceNzd = await _marketReader.GetBitcoinLastPrice(FiatCurrency.NZD);
+        var ethMarketPriceUsd = await _marketReader.GetEtheriumLastPrice(FiatCurrency.USD);
+        var ethMarketPriceNzd = await _marketReader.GetEtheriumLastPrice(FiatCurrency.NZD);
 
         var btcValue = await _balancesReader.GetBitcoinBalanceValue();
         var ethValue = await _balancesReader.GetEtheriumBalanceValue();
@@ -63,12 +65,13 @@ public class Worker : BackgroundService
         var table = new Table();
 
         table.AddColumn("Coin");
-        table.AddColumn(new TableColumn("Current Price (NZD)").Centered());
+        table.AddColumn(new TableColumn("Market Price (USD)").Centered());
+        table.AddColumn(new TableColumn("Market Price (NZD)").Centered());
         table.AddColumn(new TableColumn("Balance").Centered());
         table.AddColumn(new TableColumn("Value (NZD)").Centered());
 
-        table.AddRow("[cyan1]BTC[/]", $"[cyan1]{btcCurrentPrice}[/]", $"[cyan1]{btcBalance}[/]", $"[cyan1]{btcValue}[/]");
-        table.AddRow("[chartreuse2]ETH[/]", $"[chartreuse2]{ethCurrentPrice}[/]", $"[chartreuse2]{ethBalance}[/]", $"[chartreuse2]{ethValue}[/]");
+        table.AddRow("[cyan1]BTC[/]", $"[cyan1]{btcMarketPriceUsd}[/]", $"[cyan1]{btcMarketPriceNzd}[/]", $"[cyan1]{btcBalance}[/]", $"[cyan1]{btcValue}[/]");
+        table.AddRow("[chartreuse2]ETH[/]", $"[chartreuse2]{ethMarketPriceUsd}[/]", $"[chartreuse2]{ethMarketPriceNzd}[/]", $"[chartreuse2]{ethBalance}[/]", $"[chartreuse2]{ethValue}[/]");
 
         AnsiConsole.Write(table);
     }
