@@ -1,7 +1,3 @@
-using Trader.Domain.Enums;
-using Trader.Domain.InboundPorts;
-using Trader.Domain.OutboundPorts;
-
 namespace Trader.Domain.Services;
 
 public class MarketWriter : IMarketWriter

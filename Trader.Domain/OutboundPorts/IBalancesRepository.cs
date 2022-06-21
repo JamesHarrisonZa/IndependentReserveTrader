@@ -1,5 +1,3 @@
-using Trader.Domain.Enums;
-
 namespace Trader.Domain.OutboundPorts;
 
 public interface IBalancesRepository

@@ -1,7 +1,3 @@
-using IndependentReserve.DotNetClientApi;
-using Trader.Domain.Enums;
-using Trader.Domain.OutboundPorts;
-
 namespace Trader.Adapter.IndependentReserve.Repositories;
 
 public class BalancesRepository : IBalancesRepository

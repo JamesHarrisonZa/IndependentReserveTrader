@@ -1,10 +1,3 @@
-using IndependentReserve.DotNetClientApi;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Trader.Domain.OutboundPorts;
-using Trader.Adapter.IndependentReserve.Config;
-using Trader.Adapter.IndependentReserve.Repositories;
-
 namespace Trader.Adapter.IndependentReserve;
 
 public static class ServiceCollectionExtensions

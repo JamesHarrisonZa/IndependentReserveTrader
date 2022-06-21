@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Trader.Adapter.IndependentReserve;
-
-namespace Trader.DependencyInjection;
+﻿namespace Trader.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

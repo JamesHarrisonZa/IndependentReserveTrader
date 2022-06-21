@@ -1,9 +1,3 @@
-using IndependentReserve.DotNetClientApi;
-using IndependentReserve.DotNetClientApi.Data;
-using Trader.Domain.Enums;
-using Trader.Domain.Models;
-using Trader.Domain.OutboundPorts;
-
 namespace Trader.Adapter.IndependentReserve.Repositories;
 
 public class MarketRepository : IMarketRepository

@@ -1,5 +1,3 @@
-using System.Runtime.Serialization;
-
 namespace Trader.Domain.Enums;
 
 public enum FiatCurrency

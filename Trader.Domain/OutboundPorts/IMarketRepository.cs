@@ -1,6 +1,3 @@
-using Trader.Domain.Enums;
-using Trader.Domain.Models;
-
 namespace Trader.Domain.OutboundPorts;
 
 public interface IMarketRepository

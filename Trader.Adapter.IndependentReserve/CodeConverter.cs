@@ -1,6 +1,3 @@
-using IndependentReserve.DotNetClientApi.Data;
-using Trader.Domain.Enums;
-
 namespace Trader.Adapter.IndependentReserve;
 
 public static class CodeConverter

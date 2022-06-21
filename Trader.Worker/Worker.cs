@@ -1,8 +1,3 @@
-using Spectre.Console;
-using Trader.Domain.Models;
-using Trader.Domain.InboundPorts;
-using Trader.Domain.Enums;
-
 namespace Trader.Worker;
 
 public class Worker : BackgroundService

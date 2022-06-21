@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Trader.Domain.Services;
-using Trader.Domain.InboundPorts;
-
-namespace Trader.DependencyInjection;
+﻿namespace Trader.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

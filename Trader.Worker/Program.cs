@@ -1,6 +1,3 @@
-using Trader.Worker;
-using Trader.DependencyInjection;
-
 var env = System.Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
 
 var configuration = new ConfigurationBuilder()
