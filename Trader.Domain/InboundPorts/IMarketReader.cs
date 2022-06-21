@@ -9,4 +9,6 @@ public interface IMarketReader
     Task<decimal> GetEtheriumLastPrice();
     
     Task<ClosedOrder> GetBitcoinLastClosedOrder();
+
+    Task<decimal> GetCurrentValueOfClosedOrder(ClosedOrder closedOrder);
 }

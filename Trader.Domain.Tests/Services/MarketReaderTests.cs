@@ -50,6 +50,42 @@ public class MarketReaderTests
         Assert.Equal(expectedLastClosedOrder, actualLastClosedOrder);
     }
 
+    public static IEnumerable<object[]> GetCurrentValueOfClosedOrderData()
+    {
+        //Focus on orderVolumes
+        yield return new object[] { 0.5m, 10000.0m, 15000.0m, 7500.00 };
+        yield return new object[] { 1.0m, 10000.0m, 15000.0m, 15000.0m };
+        yield return new object[] { 1.5m, 10000.0m, 15000.0m, 22500.00 };
+
+        //Focus on lastPrices
+        yield return new object[] { 1.0m, 10000.0m, 8999.99m, 8999.99m };
+        yield return new object[] { 1.0m, 10000.0m, 10000.0m, 10000.0m };
+        yield return new object[] { 1.0m, 10000.0m, 11999.99, 11999.99m };
+    }
+
+    [Theory]
+    [MemberData(nameof(GetCurrentValueOfClosedOrderData))]
+    public async void Given_MarketReturnsDifferentPrice_When_GetCurrentValueOfClosedOrder_Then_ReturnsCurrentValue(
+        decimal orderVolume, 
+        decimal orderValue,
+        decimal lastPrice, 
+        decimal expectedCurrentValue
+    )
+    {
+        var closedOrder = _fixture
+            .Build<ClosedOrder>()
+            .With(co => co.Volume, orderVolume)
+            .With(co => co.Value, orderValue)
+            .Create();
+        
+        SetupGetLastPrice(CryptoCurrency.BTC, lastPrice);
+
+        var actualCurrentValue = await _marketReader.GetCurrentValueOfClosedOrder(closedOrder);
+
+        _marketRepository.Verify();
+        Assert.Equal(expectedCurrentValue, actualCurrentValue);
+    }
+
     private void SetupGetLastPrice(CryptoCurrency cryptoCurrency, decimal lastPrice)
     {
         _marketRepository

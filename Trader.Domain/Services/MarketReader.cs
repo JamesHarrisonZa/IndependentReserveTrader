@@ -31,4 +31,17 @@ public class MarketReader : IMarketReader
         return await _marketRepository
             .GetLastClosedOrder(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
+
+    public async Task<decimal> GetCurrentValueOfClosedOrder(ClosedOrder closedOrder)
+    {
+        return await GetCurrentValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
+    }
+
+    private async Task<decimal> GetCurrentValue(CryptoCurrency cryptoCurrency, decimal cryptoAmount, FiatCurrency fiatCurrency)
+    {
+        var currentPrice = await _marketRepository.GetLastPrice(cryptoCurrency, fiatCurrency);
+        var currentValue = Math.Round(cryptoAmount * currentPrice, 2);
+
+        return currentValue;
+    }
 }
