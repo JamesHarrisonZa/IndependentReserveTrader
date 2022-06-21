@@ -1,6 +1,7 @@
 using Spectre.Console;
 using Trader.Domain.Models;
 using Trader.Domain.InboundPorts;
+using Trader.Domain.Enums;
 
 namespace Trader.Worker;
 
@@ -53,8 +54,8 @@ public class Worker : BackgroundService
         var btcBalance = await _balancesReader.GetBitcoinBalance();
         var ethBalance = await _balancesReader.GetEtheriumBalance();
 
-        var btcCurrentPrice = await _marketReader.GetBitcoinLastPrice();
-        var ethCurrentPrice = await _marketReader.GetEtheriumLastPrice();
+        var btcCurrentPrice = await _marketReader.GetBitcoinLastPrice(FiatCurrency.NZD);
+        var ethCurrentPrice = await _marketReader.GetEtheriumLastPrice(FiatCurrency.NZD);
 
         var btcValue = await _balancesReader.GetBitcoinBalanceValue();
         var ethValue = await _balancesReader.GetEtheriumBalanceValue();

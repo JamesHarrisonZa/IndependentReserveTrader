@@ -1,12 +1,13 @@
+using Trader.Domain.Enums;
 using Trader.Domain.Models;
 
 namespace Trader.Domain.InboundPorts;
 
 public interface IMarketReader
 {
-    Task<decimal> GetBitcoinLastPrice();
+    Task<decimal> GetBitcoinLastPrice(FiatCurrency fiatCurrency);
 
-    Task<decimal> GetEtheriumLastPrice();
+    Task<decimal> GetEtheriumLastPrice(FiatCurrency fiatCurrency);
     
     Task<ClosedOrder> GetBitcoinLastClosedOrder();
 
