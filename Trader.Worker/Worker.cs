@@ -21,12 +21,30 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await WriteBalancesTable();
-        
         var lastClosedOrder = await _marketReader.GetBitcoinLastClosedOrder();
-        // WriteLastBitcoinOrder(lastClosedOrder);
 
         await Update(stoppingToken, lastClosedOrder);
+    }
+
+    private async Task Update(CancellationToken stoppingToken, ClosedOrder lastClosedOrder)
+    {
+        await AnsiConsole.Status()
+            .Spinner(Spinner.Known.Aesthetic)
+            .SpinnerStyle(Style.Parse("green"))
+            .StartAsync("Comparing last order to market 🙏🚀", async ctx =>
+            {
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    AnsiConsole.Clear();
+
+                    await WriteBalancesTable();
+                    await WriteLastOrderBarChart(lastClosedOrder);
+                    WriteLastUpdated();
+
+                    var fiveSeconds = 5000;
+                    await Task.Delay(fiveSeconds, stoppingToken);
+                }
+            });
     }
 
     private async Task WriteBalancesTable()
@@ -53,6 +71,33 @@ public class Worker : BackgroundService
         AnsiConsole.Write(table);
     }
 
+    private async Task WriteLastOrderBarChart(ClosedOrder lastClosedOrder)
+    {
+        var currentValue = await _marketReader.GetCurrentValueOfClosedOrder(lastClosedOrder);
+
+        var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
+        var orderMarketValue = Convert.ToDouble(currentValue);
+        var profitOrLossColour = orderMarketValue > lastOrderValue
+            ? Color.Green
+            : Color.Red;
+
+        var barChart = new BarChart()
+            .Width(60)
+            .Label($"[green bold underline]Last Bitcoin Order {lastClosedOrder.FiatCurrency}[/]")
+            .CenterLabel();
+
+        barChart.AddItem("[cyan1] Order Value [/]", lastOrderValue, Color.Yellow1);
+        barChart.AddItem("[cyan1] Market Value [/]", orderMarketValue, profitOrLossColour);
+
+        AnsiConsole.Write(barChart);
+    }
+
+    private static void WriteLastUpdated()
+    {
+        var lastUpdated = DateTime.Now.ToString("hh:mm:ss tt");
+        AnsiConsole.MarkupLine($"[bold]Last updated: {lastUpdated}[/]");
+    }
+
     private void WriteLastBitcoinOrder(ClosedOrder lastClosedOrder)
     {
         AnsiConsole.MarkupLine(@$"
@@ -64,68 +109,5 @@ public class Worker : BackgroundService
               [cyan1]FeePercent:[/] [yellow1]{lastClosedOrder.FeePercent}[/],
               [cyan1]Outstanding:[/] [yellow1]{lastClosedOrder.Outstanding}[/],
               ");
-    }
-
-  private async Task CompareLastOrderToMarket(ClosedOrder lastClosedOrder)
-  {
-    var currentValue = await _marketReader.GetCurrentValueOfClosedOrder(lastClosedOrder);
-
-    var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
-    var orderMarketValue = Convert.ToDouble(currentValue);
-    var profitOrLossColour = orderMarketValue > lastOrderValue
-        ? Color.Green
-        : Color.Red;
-
-    AnsiConsole.Write(new BarChart()
-        .Width(60)
-        .Label($"[green bold underline]Last Bitcoin Order {lastClosedOrder.FiatCurrency}[/]")
-        .CenterLabel()
-        .AddItem("[cyan1] Order Value [/]", lastOrderValue, Color.Yellow1)
-        .AddItem("[cyan1] Market Value [/]", orderMarketValue, profitOrLossColour));
-  }
-
-  private async Task Update(CancellationToken stoppingToken, ClosedOrder lastClosedOrder)
-    {
-        // await AnsiConsole.Status()
-        //       .Spinner(Spinner.Known.Aesthetic)
-        //       .SpinnerStyle(Style.Parse("green"))
-        //       .StartAsync("Comparing last order to market 🙏🚀", async ctx =>
-        //       {
-        //           while (!stoppingToken.IsCancellationRequested)
-        //           {
-        //               await CompareLastOrderToMarket(lastClosedOrder);
-
-        //               var fiveSeconds = 5000;
-        //               await Task.Delay(fiveSeconds, stoppingToken);
-        //           }
-        //       });
-
-        var barChart = new BarChart()
-            .Width(60)
-            .Label($"[green bold underline]Last Bitcoin Order {lastClosedOrder.FiatCurrency}[/]")
-            .CenterLabel();
-
-        await AnsiConsole.Live(barChart)
-            .StartAsync(async ctx => 
-            {
-                var currentValue = await _marketReader.GetCurrentValueOfClosedOrder(lastClosedOrder);
-
-                var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
-                var orderMarketValue = Convert.ToDouble(currentValue);
-                var profitOrLossColour = orderMarketValue > lastOrderValue
-                    ? Color.Green
-                    : Color.Red;
-                var lastUpdated = DateTime.Now.ToString("hh:mm:ss tt");
-
-                barChart.AddItem("[cyan1] Order Value [/]", lastOrderValue, Color.Yellow1);
-                barChart.AddItem("[cyan1] Market Value [/]", orderMarketValue, profitOrLossColour);
-
-                
-                AnsiConsole.MarkupLine($"[bold]Last updated: {lastUpdated}[/]");
-                
-                ctx.Refresh();
-                var thirtySeconds = 30 * 1000;
-                await Task.Delay(2000);
-            });
     }
 }
