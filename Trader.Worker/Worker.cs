@@ -26,7 +26,7 @@ public class Worker : BackgroundService
         await AnsiConsole.Status()
             .Spinner(Spinner.Known.Aesthetic)
             .SpinnerStyle(Style.Parse("green"))
-            .StartAsync("Comparing last order to market 🙏🚀", async ctx =>
+            .StartAsync("Comparing assets against market 🚀🙏", async ctx =>
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
@@ -96,7 +96,7 @@ public class Worker : BackgroundService
     private static void WriteLastUpdated()
     {
         var lastUpdated = DateTime.Now.ToString("hh:mm:ss tt");
-        AnsiConsole.MarkupLine($"[bold]Last updated: {lastUpdated}[/]");
+        AnsiConsole.MarkupLine($"Last updated⌚: [bold]{lastUpdated}[/]");
     }
 
     private void WriteLastBitcoinOrder(ClosedOrder lastClosedOrder)
