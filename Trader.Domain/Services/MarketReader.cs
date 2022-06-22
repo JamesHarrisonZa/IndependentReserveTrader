@@ -27,7 +27,7 @@ public class MarketReader : IMarketReader
             .GetLastClosedOrder(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
 
-    public async Task<decimal> GetCurrentValueOfClosedOrder(ClosedOrder closedOrder)
+    public async Task<decimal> GetMarketValueOfClosedOrder(ClosedOrder closedOrder)
     {
         return await GetCurrentValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
     }

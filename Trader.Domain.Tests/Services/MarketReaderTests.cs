@@ -67,7 +67,7 @@ public class MarketReaderTests
 
     [Theory]
     [MemberData(nameof(GetCurrentValueOfClosedOrderData))]
-    public async void Given_MarketReturnsDifferentPrice_When_GetCurrentValueOfClosedOrder_Then_ReturnsCurrentValue(
+    public async void Given_MarketReturnsPrice_When_GetMarketValueOfClosedOrder_Then_ReturnsCurrentValue(
         decimal orderVolume, 
         decimal orderValue,
         decimal lastPrice, 
@@ -82,7 +82,7 @@ public class MarketReaderTests
         
         SetupGetLastPrice(CryptoCurrency.BTC, lastPrice);
 
-        var actualCurrentValue = await _marketReader.GetCurrentValueOfClosedOrder(closedOrder);
+        var actualCurrentValue = await _marketReader.GetMarketValueOfClosedOrder(closedOrder);
 
         _marketRepository.Verify();
         Assert.Equal(expectedCurrentValue, actualCurrentValue);

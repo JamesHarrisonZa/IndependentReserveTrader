@@ -8,5 +8,5 @@ public interface IMarketReader
 
     Task<ClosedOrder> GetBitcoinLastClosedOrder();
 
-    Task<decimal> GetCurrentValueOfClosedOrder(ClosedOrder closedOrder);
+    Task<decimal> GetMarketValueOfClosedOrder(ClosedOrder closedOrder);
 }
