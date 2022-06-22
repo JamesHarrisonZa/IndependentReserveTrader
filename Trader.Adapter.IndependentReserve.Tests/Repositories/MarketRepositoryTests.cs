@@ -18,7 +18,7 @@ public class MarketRepositoryTests
     }
 
     [Fact]
-    public async void Given_CryptoCurrency_And_FiatCurrency_When_GetLastPrice_Then_Returns_LastPrice()
+    public async void Given_CryptoCurrency_And_FiatCurrency_When_GetLastMarketPrice_Then_Returns_LastPrice()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
         var fiatCurrency = FiatCurrency.NZD;
@@ -26,7 +26,7 @@ public class MarketRepositoryTests
         var expectedLastPrice = 42000m;
         SetupGetMarketSummary(expectedLastPrice);
 
-        var actualLastPrice = await _marketRepository.GetLastPrice(cryptoCurrency, fiatCurrency);
+        var actualLastPrice = await _marketRepository.GetLastMarketPrice(cryptoCurrency, fiatCurrency);
 
         _clientMock.Verify();
         Assert.Equal(expectedLastPrice, actualLastPrice);

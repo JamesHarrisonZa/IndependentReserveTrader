@@ -44,7 +44,7 @@ public class BalancesRepositoryTests
         SetupGetAccounts(balance);
 
         var lastPrice = 42000m;
-        SetupGetLastPrice(cryptoCurrency, fiatCurrency, lastPrice);
+        SetupGetLastMarketPrice(cryptoCurrency, fiatCurrency, lastPrice);
 
         var expectedBalanceValue = 17640m;
 
@@ -56,10 +56,10 @@ public class BalancesRepositoryTests
         Assert.Equal(expectedBalanceValue, actualBalanceValue);
     }
 
-    private void SetupGetLastPrice(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal lastPrice)
+    private void SetupGetLastMarketPrice(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal lastPrice)
     {
         _marketRepositoryMock
-            .Setup(mr => mr.GetLastPrice(cryptoCurrency, fiatCurrency))
+            .Setup(mr => mr.GetLastMarketPrice(cryptoCurrency, fiatCurrency))
             .ReturnsAsync(lastPrice)
             .Verifiable();
     }

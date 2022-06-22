@@ -12,13 +12,13 @@ public class MarketReader : IMarketReader
     public async Task<decimal> GetBitcoinLastPrice(FiatCurrency fiatCurrency)
     {
         return await _marketRepository
-            .GetLastPrice(CryptoCurrency.BTC, fiatCurrency);
+            .GetLastMarketPrice(CryptoCurrency.BTC, fiatCurrency);
     }
 
     public async Task<decimal> GetEtheriumLastPrice(FiatCurrency fiatCurrency)
     {
         return await _marketRepository
-            .GetLastPrice(CryptoCurrency.ETH, fiatCurrency);
+            .GetLastMarketPrice(CryptoCurrency.ETH, fiatCurrency);
     }
 
     public async Task<ClosedOrder> GetBitcoinLastClosedOrder()
@@ -41,7 +41,7 @@ public class MarketReader : IMarketReader
 
     private async Task<decimal> GetMarketValue(CryptoCurrency cryptoCurrency, decimal cryptoAmount, FiatCurrency fiatCurrency)
     {
-        var currentPrice = await _marketRepository.GetLastPrice(cryptoCurrency, fiatCurrency);
+        var currentPrice = await _marketRepository.GetLastMarketPrice(cryptoCurrency, fiatCurrency);
         var currentValue = Math.Round(cryptoAmount * currentPrice, 2);
 
         return currentValue;

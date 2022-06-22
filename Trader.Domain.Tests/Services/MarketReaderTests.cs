@@ -93,7 +93,7 @@ public class MarketReaderTests
     private void SetupGetLastMarketPrice(CryptoCurrency cryptoCurrency, decimal lastPrice)
     {
         _marketRepository
-            .Setup(br => br.GetLastPrice(cryptoCurrency, FiatCurrency.NZD))
+            .Setup(br => br.GetLastMarketPrice(cryptoCurrency, FiatCurrency.NZD))
             .ReturnsAsync(lastPrice)
             .Verifiable();
     }

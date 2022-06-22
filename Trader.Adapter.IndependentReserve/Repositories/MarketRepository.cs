@@ -9,7 +9,7 @@ public class MarketRepository : IMarketRepository
         _client = client;
     }
 
-    public async Task<decimal> GetLastPrice(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency)
+    public async Task<decimal> GetLastMarketPrice(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency)
     {
         var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
         var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
@@ -75,7 +75,7 @@ public class MarketRepository : IMarketRepository
 
     private async Task<decimal> GetCryptoAmount(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
     {
-        var currentPrice = await GetLastPrice(cryptoCurrency, fiatCurrency);
+        var currentPrice = await GetLastMarketPrice(cryptoCurrency, fiatCurrency);
 
         var cryptoAmount = Math.Round(fiatAmount / currentPrice, 8);
 

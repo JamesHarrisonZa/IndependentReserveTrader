@@ -24,7 +24,7 @@ public class BalancesRepository : IBalancesRepository
     public async Task<decimal> GetBalanceValue(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency)
     {
         var balance = await GetBalance(cryptoCurrency);
-        var currentPrice = await _marketRepository.GetLastPrice(cryptoCurrency, fiatCurrency);
+        var currentPrice = await _marketRepository.GetLastMarketPrice(cryptoCurrency, fiatCurrency);
 
         return Math.Round(balance * currentPrice, 2);
     }
