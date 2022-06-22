@@ -77,7 +77,7 @@ public class Worker : BackgroundService
 
         var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
         var orderMarketValue = Convert.ToDouble(marketClosedOrder.MarketValue);
-        var profitOrLossColour = orderMarketValue > lastOrderValue
+        var profitOrLossColour = marketClosedOrder.IsProfitable
             ? Color.Green
             : Color.Red;
 

@@ -18,7 +18,7 @@ public class MarketReaderTests
     {
         var fiatCurrency = FiatCurrency.NZD;
         var expectedLastPrice = 42m;
-        SetupGetLastPrice(CryptoCurrency.BTC, expectedLastPrice);
+        SetupGetLastMarketPrice(CryptoCurrency.BTC, expectedLastPrice);
 
         var actualLastPrice = await _marketReader.GetBitcoinLastPrice(fiatCurrency);
 
@@ -31,7 +31,7 @@ public class MarketReaderTests
     {
         var fiatCurrency = FiatCurrency.NZD;
         var expectedLastPrice = 42m;
-        SetupGetLastPrice(CryptoCurrency.ETH, expectedLastPrice);
+        SetupGetLastMarketPrice(CryptoCurrency.ETH, expectedLastPrice);
 
         var actualLastPrice = await _marketReader.GetEtheriumLastPrice(fiatCurrency);
 
@@ -55,7 +55,7 @@ public class MarketReaderTests
     public static IEnumerable<object[]> GetCurrentValueOfClosedOrderData()
     {
         //Focus on orderVolumes
-        yield return new object[] { 0.5m, 10000.0m, 15000.0m, 7500.00, true };
+        yield return new object[] { 0.5m, 10000.0m, 15000.0m, 7500.00, false };
         yield return new object[] { 1.0m, 10000.0m, 15000.0m, 15000.0m, true };
         yield return new object[] { 1.5m, 10000.0m, 15000.0m, 22500.00, true  };
 
@@ -70,7 +70,7 @@ public class MarketReaderTests
     public async void Given_MarketReturnsPrice_When_GetMarketValueOfClosedOrder_Then_ReturnsMarketValue(
         decimal orderVolume, 
         decimal orderValue,
-        decimal lastPrice, 
+        decimal lastMarketPrice, 
         decimal expectedMarketValue,
         bool expectedIsProfitable
     )
@@ -81,7 +81,7 @@ public class MarketReaderTests
             .With(co => co.Value, orderValue)
             .Create();
         
-        SetupGetLastPrice(CryptoCurrency.BTC, lastPrice);
+        SetupGetLastMarketPrice(CryptoCurrency.BTC, lastMarketPrice);
 
         var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(closedOrder);
 
@@ -90,7 +90,7 @@ public class MarketReaderTests
         Assert.Equal(expectedIsProfitable, marketClosedOrder.IsProfitable);
     }
 
-    private void SetupGetLastPrice(CryptoCurrency cryptoCurrency, decimal lastPrice)
+    private void SetupGetLastMarketPrice(CryptoCurrency cryptoCurrency, decimal lastPrice)
     {
         _marketRepository
             .Setup(br => br.GetLastPrice(cryptoCurrency, FiatCurrency.NZD))

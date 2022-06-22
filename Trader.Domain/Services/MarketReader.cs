@@ -30,7 +30,7 @@ public class MarketReader : IMarketReader
     public async Task<MarketClosedOrder> GetMarketValueOfClosedOrder(ClosedOrder closedOrder)
     {
         var marketValue = await GetMarketValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
-        var isProfitable = true; //TODO
+        var isProfitable = CalculateIsProfitable(closedOrder.Value, marketValue);
 
         return new MarketClosedOrder(closedOrder)
         {
@@ -45,5 +45,12 @@ public class MarketReader : IMarketReader
         var currentValue = Math.Round(cryptoAmount * currentPrice, 2);
 
         return currentValue;
+    }
+
+    private bool CalculateIsProfitable(decimal? orderValue, decimal marketValue)
+    {
+        //TODO factor in fees. Coming soon
+
+        return marketValue > orderValue;
     }
 }
