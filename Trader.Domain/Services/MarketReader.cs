@@ -29,10 +29,10 @@ public class MarketReader : IMarketReader
 
     public async Task<decimal> GetMarketValueOfClosedOrder(ClosedOrder closedOrder)
     {
-        return await GetCurrentValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
+        return await GetMarketValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
     }
 
-    private async Task<decimal> GetCurrentValue(CryptoCurrency cryptoCurrency, decimal cryptoAmount, FiatCurrency fiatCurrency)
+    private async Task<decimal> GetMarketValue(CryptoCurrency cryptoCurrency, decimal cryptoAmount, FiatCurrency fiatCurrency)
     {
         var currentPrice = await _marketRepository.GetLastPrice(cryptoCurrency, fiatCurrency);
         var currentValue = Math.Round(cryptoAmount * currentPrice, 2);

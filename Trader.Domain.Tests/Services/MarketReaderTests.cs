@@ -67,7 +67,7 @@ public class MarketReaderTests
 
     [Theory]
     [MemberData(nameof(GetCurrentValueOfClosedOrderData))]
-    public async void Given_MarketReturnsPrice_When_GetMarketValueOfClosedOrder_Then_ReturnsCurrentValue(
+    public async void Given_MarketReturnsPrice_When_GetMarketValueOfClosedOrder_Then_ReturnsMarketValue(
         decimal orderVolume, 
         decimal orderValue,
         decimal lastPrice, 
