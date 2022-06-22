@@ -72,27 +72,45 @@ public class Worker : BackgroundService
     }
 
     private async Task WriteLastOrderBarChart(ClosedOrder lastClosedOrder)
-    {
-        var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
+  {
+    var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
 
-        var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
-        var orderMarketValue = Convert.ToDouble(marketClosedOrder.MarketValue);
-        var profitOrLossColour = marketClosedOrder.IsProfitable
-            ? Color.Green
-            : Color.Red;
+    var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
+    var orderMarketValue = Convert.ToDouble(marketClosedOrder.MarketValue);
+    var profitOrLossColour = GetProfitOrLossColour(marketClosedOrder);
 
-        var barChart = new BarChart()
-            .Width(60)
-            .Label($"[green bold underline]Last Bitcoin Order {lastClosedOrder.FiatCurrency}[/]")
-            .CenterLabel();
+    var barChart = new BarChart()
+        .Width(60)
+        .Label($"[green bold underline]Last Bitcoin Order {lastClosedOrder.FiatCurrency}[/]")
+        .CenterLabel();
 
-        barChart.AddItem("[cyan1] Order Value [/]", lastOrderValue, Color.Yellow1);
-        barChart.AddItem("[cyan1] Market Value [/]", orderMarketValue, profitOrLossColour);
+    barChart.AddItem("[cyan1] Order Value [/]", lastOrderValue, Color.Yellow1);
+    barChart.AddItem("[cyan1] Market Value [/]", orderMarketValue, profitOrLossColour);
+    AnsiConsole.Write(barChart);
 
-        AnsiConsole.Write(barChart);
-    }
+    WriteGainOrLossPercentage(marketClosedOrder);
+  }
 
-    private static void WriteLastUpdated()
+  private static Color GetProfitOrLossColour(MarketClosedOrder marketClosedOrder)
+  {
+      return marketClosedOrder.IsProfitable
+          ? Color.Green
+          : Color.Red;
+  }
+
+  private static void WriteGainOrLossPercentage(MarketClosedOrder marketClosedOrder)
+  {
+      var profitOrLossColour = GetProfitOrLossColour(marketClosedOrder);
+
+      var emojis = marketClosedOrder.IsProfitable
+          ? "📈💲😎👍"
+          : "📉💸😭👎";
+
+      AnsiConsole.MarkupLine("");
+      AnsiConsole.MarkupLine($"[{profitOrLossColour}]Gain or Loss Percentage: {marketClosedOrder.GainOrLossPercentage}% [/] {emojis}");
+  }
+
+  private static void WriteLastUpdated()
     {
         var lastUpdated = DateTime.Now.ToString("hh:mm:ss tt");
         var nextUpdate = DateTime.Now.AddMilliseconds(_updateDelayTime).ToString("hh:mm:ss tt");
