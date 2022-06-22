@@ -6,6 +6,7 @@ public class Worker : BackgroundService
     private readonly IMarketReader _marketReader;
     private readonly IMarketWriter _marketWriter;
     private readonly ILogger<Worker> _logger;
+    private const int _updateDelayTime =  1 * 60 * 1000; //1 minute
 
     public Worker(IBalancesReader balancesReader, IMarketReader marketReader, IMarketWriter marketWriter, ILogger<Worker> logger)
     {
@@ -28,8 +29,7 @@ public class Worker : BackgroundService
                 {
                     await Update(lastClosedOrder);
 
-                    var oneMinute = 1 * 60 * 1000;
-                    await Task.Delay(oneMinute, stoppingToken);
+                    await Task.Delay(_updateDelayTime, stoppingToken);
                 }
             });
     }
@@ -95,7 +95,9 @@ public class Worker : BackgroundService
     private static void WriteLastUpdated()
     {
         var lastUpdated = DateTime.Now.ToString("hh:mm:ss tt");
-        AnsiConsole.MarkupLine($"Last updated⌚: [bold]{lastUpdated}[/]");
+        var nextUpdate = DateTime.Now.AddMilliseconds(_updateDelayTime).ToString("hh:mm:ss tt");
+        AnsiConsole.MarkupLine("");
+        AnsiConsole.MarkupLine($"Last updated⌚: [bold]{lastUpdated}[/], next update: [bold]{nextUpdate}[/]");
     }
 
     private void WriteLastBitcoinOrder(ClosedOrder lastClosedOrder)
