@@ -31,11 +31,13 @@ public class MarketReader : IMarketReader
     {
         var marketValue = await GetMarketValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
         var isProfitable = CalculateIsProfitable(closedOrder.Value, marketValue);
+        var gainOrLossPercentage = CalculateGainOrLossPercentage(closedOrder.Value ?? 0, marketValue);
 
         return new MarketClosedOrder(closedOrder)
         {
             MarketValue = marketValue,
             IsProfitable = isProfitable,
+            GainOrLossPercentage = gainOrLossPercentage,
         };
     }
 
@@ -52,5 +54,11 @@ public class MarketReader : IMarketReader
         //TODO factor in fees. Coming soon
 
         return marketValue > orderValue;
+    }
+
+    private decimal CalculateGainOrLossPercentage(decimal orderValue, decimal marketValue)
+    {
+        var percentage = (marketValue - orderValue) / orderValue * 100;
+        return Math.Round(percentage, 2);
     }
 }

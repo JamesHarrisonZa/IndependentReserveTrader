@@ -8,6 +8,7 @@ public class MarketClosedOrder
     public decimal ClosedOrderVolume { get; init; }
     public decimal MarketValue { get; init; }
     public bool IsProfitable { get; init; }
+    public decimal GainOrLossPercentage { get; init; }
 
     public MarketClosedOrder(ClosedOrder closedOrder)
     {

@@ -55,14 +55,19 @@ public class MarketReaderTests
     public static IEnumerable<object[]> GetCurrentValueOfClosedOrderData()
     {
         //Focus on orderVolumes
-        yield return new object[] { 0.5m, 10000.0m, 15000.0m, 7500.00, false };
-        yield return new object[] { 1.0m, 10000.0m, 15000.0m, 15000.0m, true };
-        yield return new object[] { 1.5m, 10000.0m, 15000.0m, 22500.00, true  };
+        yield return new object[] { 0.5, 10000, 15000, 7500, false, -25 };
+        yield return new object[] { 1.0m, 10000.0m, 15000.0m, 15000.0m, true, 50 };
+        yield return new object[] { 1.5m, 10000.0m, 15000.0m, 22500.00, true, 125 };
 
-        //Focus on lastPrices
-        yield return new object[] { 1.0m, 10000.0m, 8999.99m, 8999.99m, false };
-        yield return new object[] { 1.0m, 10000.0m, 10000.0m, 10000.0m, false };
-        yield return new object[] { 1.0m, 10000.0m, 11999.99, 11999.99m, true };
+        // //Focus on lastPrices
+        yield return new object[] { 1.0m, 10000.0m, 8999.99m, 8999.99m, false, -10 };
+        yield return new object[] { 1.0m, 10000.0m, 10000.0m, 10000.0m, false, 0 };
+        yield return new object[] { 1.0m, 10000.0m, 11999.99, 11999.99m, true, 20 };
+
+        //Focus on GainOrLossPercentage
+        yield return new object[] { 1, 100, 90, 90, false, -10 };
+        yield return new object[] { 1, 100, 100, 100, false, 0 };
+        yield return new object[] { 1, 100, 110, 110, true, 10 };
     }
 
     [Theory]
@@ -72,7 +77,8 @@ public class MarketReaderTests
         decimal orderValue,
         decimal lastMarketPrice, 
         decimal expectedMarketValue,
-        bool expectedIsProfitable
+        bool expectedIsProfitable,
+        decimal expectedGainOrLossPercentage
     )
     {
         var closedOrder = _fixture
@@ -88,6 +94,7 @@ public class MarketReaderTests
         _marketRepository.Verify();
         Assert.Equal(expectedMarketValue, marketClosedOrder.MarketValue);
         Assert.Equal(expectedIsProfitable, marketClosedOrder.IsProfitable);
+        Assert.Equal(expectedGainOrLossPercentage, marketClosedOrder.GainOrLossPercentage);
     }
 
     private void SetupGetLastMarketPrice(CryptoCurrency cryptoCurrency, decimal lastPrice)
