@@ -73,10 +73,10 @@ public class Worker : BackgroundService
 
     private async Task WriteLastOrderBarChart(ClosedOrder lastClosedOrder)
     {
-        var currentValue = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
+        var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
 
         var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
-        var orderMarketValue = Convert.ToDouble(currentValue);
+        var orderMarketValue = Convert.ToDouble(marketClosedOrder.MarketValue);
         var profitOrLossColour = orderMarketValue > lastOrderValue
             ? Color.Green
             : Color.Red;

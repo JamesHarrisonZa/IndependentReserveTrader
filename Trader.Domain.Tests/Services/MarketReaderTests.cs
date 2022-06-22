@@ -55,14 +55,14 @@ public class MarketReaderTests
     public static IEnumerable<object[]> GetCurrentValueOfClosedOrderData()
     {
         //Focus on orderVolumes
-        yield return new object[] { 0.5m, 10000.0m, 15000.0m, 7500.00 };
-        yield return new object[] { 1.0m, 10000.0m, 15000.0m, 15000.0m };
-        yield return new object[] { 1.5m, 10000.0m, 15000.0m, 22500.00 };
+        yield return new object[] { 0.5m, 10000.0m, 15000.0m, 7500.00, true };
+        yield return new object[] { 1.0m, 10000.0m, 15000.0m, 15000.0m, true };
+        yield return new object[] { 1.5m, 10000.0m, 15000.0m, 22500.00, true  };
 
         //Focus on lastPrices
-        yield return new object[] { 1.0m, 10000.0m, 8999.99m, 8999.99m };
-        yield return new object[] { 1.0m, 10000.0m, 10000.0m, 10000.0m };
-        yield return new object[] { 1.0m, 10000.0m, 11999.99, 11999.99m };
+        yield return new object[] { 1.0m, 10000.0m, 8999.99m, 8999.99m, false };
+        yield return new object[] { 1.0m, 10000.0m, 10000.0m, 10000.0m, false };
+        yield return new object[] { 1.0m, 10000.0m, 11999.99, 11999.99m, true };
     }
 
     [Theory]
@@ -71,7 +71,8 @@ public class MarketReaderTests
         decimal orderVolume, 
         decimal orderValue,
         decimal lastPrice, 
-        decimal expectedCurrentValue
+        decimal expectedMarketValue,
+        bool expectedIsProfitable
     )
     {
         var closedOrder = _fixture
@@ -82,10 +83,11 @@ public class MarketReaderTests
         
         SetupGetLastPrice(CryptoCurrency.BTC, lastPrice);
 
-        var actualCurrentValue = await _marketReader.GetMarketValueOfClosedOrder(closedOrder);
+        var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(closedOrder);
 
         _marketRepository.Verify();
-        Assert.Equal(expectedCurrentValue, actualCurrentValue);
+        Assert.Equal(expectedMarketValue, marketClosedOrder.MarketValue);
+        Assert.Equal(expectedIsProfitable, marketClosedOrder.IsProfitable);
     }
 
     private void SetupGetLastPrice(CryptoCurrency cryptoCurrency, decimal lastPrice)

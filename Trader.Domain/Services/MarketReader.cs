@@ -27,9 +27,16 @@ public class MarketReader : IMarketReader
             .GetLastClosedOrder(CryptoCurrency.BTC, FiatCurrency.NZD);
     }
 
-    public async Task<decimal> GetMarketValueOfClosedOrder(ClosedOrder closedOrder)
+    public async Task<MarketClosedOrder> GetMarketValueOfClosedOrder(ClosedOrder closedOrder)
     {
-        return await GetMarketValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
+        var marketValue = await GetMarketValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
+        var isProfitable = true; //TODO
+
+        return new MarketClosedOrder(closedOrder)
+        {
+            MarketValue = marketValue,
+            IsProfitable = isProfitable,
+        };
     }
 
     private async Task<decimal> GetMarketValue(CryptoCurrency cryptoCurrency, decimal cryptoAmount, FiatCurrency fiatCurrency)
