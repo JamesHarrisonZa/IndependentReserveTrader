@@ -46,8 +46,8 @@ public class Worker : BackgroundService
 
     private async Task WriteBalancesTable()
     {
-        var btcBalance = await _balancesReader.GetBitcoinBalance();
-        var ethBalance = await _balancesReader.GetEtheriumBalance();
+        var btcBalance = Math.Round(await _balancesReader.GetBitcoinBalance(), 9);
+        var ethBalance = Math.Round(await _balancesReader.GetEtheriumBalance(), 9);
 
         var btcMarketPriceUsd = await _marketReader.GetBitcoinLastPrice(FiatCurrency.USD);
         var btcMarketPriceNzd = await _marketReader.GetBitcoinLastPrice(FiatCurrency.NZD);
@@ -72,48 +72,49 @@ public class Worker : BackgroundService
     }
 
     private async Task WriteLastOrderBarChart(ClosedOrder lastClosedOrder)
-  {
-    var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
+    {
+        var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
 
-    var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
-    var orderMarketValue = Convert.ToDouble(marketClosedOrder.MarketValue);
-    var profitOrLossColour = GetProfitOrLossColour(marketClosedOrder);
+        var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
+        var orderMarketValue = Convert.ToDouble(marketClosedOrder.MarketValue);
+        var profitOrLossColour = GetProfitOrLossColour(marketClosedOrder);
 
-    var barChart = new BarChart()
-        .Width(60)
-        .Label($"[green bold underline]Last Bitcoin Order {lastClosedOrder.FiatCurrency}[/]")
-        .CenterLabel();
+        var barChart = new BarChart()
+            .Width(60)
+            .Label($"[green bold underline]Last Bitcoin Order {lastClosedOrder.FiatCurrency}[/]")
+            .CenterLabel();
 
-    barChart.AddItem("[cyan1] Order Value [/]", lastOrderValue, Color.Yellow1);
-    barChart.AddItem("[cyan1] Market Value [/]", orderMarketValue, profitOrLossColour);
-    AnsiConsole.Write(barChart);
+        barChart.AddItem("[cyan1] Order Value [/]", lastOrderValue, Color.Yellow1);
+        barChart.AddItem("[cyan1] Market Value [/]", orderMarketValue, profitOrLossColour);
+        AnsiConsole.Write(barChart);
 
-    WriteGainOrLossPercentage(marketClosedOrder);
-  }
+        WriteGainOrLossPercentage(marketClosedOrder);
+    }
 
-  private static Color GetProfitOrLossColour(MarketClosedOrder marketClosedOrder)
-  {
-      return marketClosedOrder.IsProfitable
-          ? Color.Green
-          : Color.Red;
-  }
+    private static Color GetProfitOrLossColour(MarketClosedOrder marketClosedOrder)
+    {
+        return marketClosedOrder.IsProfitable
+            ? Color.Green
+            : Color.Red;
+    }
 
-  private static void WriteGainOrLossPercentage(MarketClosedOrder marketClosedOrder)
-  {
-      var profitOrLossColour = GetProfitOrLossColour(marketClosedOrder);
+    private static void WriteGainOrLossPercentage(MarketClosedOrder marketClosedOrder)
+    {
+        var profitOrLossColour = GetProfitOrLossColour(marketClosedOrder);
 
-      var emojis = marketClosedOrder.IsProfitable
-          ? "📈💲😎👍"
-          : "📉💸😭👎";
+        var emojis = marketClosedOrder.IsProfitable
+            ? "📈💲😎👍"
+            : "📉💸😭👎";
 
-      AnsiConsole.MarkupLine("");
-      AnsiConsole.MarkupLine($"[{profitOrLossColour}]Gain or Loss Percentage: {marketClosedOrder.GainOrLossPercentage}% [/] {emojis}");
-  }
+        AnsiConsole.MarkupLine("");
+        AnsiConsole.MarkupLine($"[{profitOrLossColour}]Gain or Loss Percentage: {marketClosedOrder.GainOrLossPercentage}% [/] {emojis}");
+    }
 
-  private static void WriteLastUpdated()
+    private static void WriteLastUpdated()
     {
         var lastUpdated = DateTime.Now.ToString("hh:mm:ss tt");
         var nextUpdate = DateTime.Now.AddMilliseconds(_updateDelayTime).ToString("hh:mm:ss tt");
+
         AnsiConsole.MarkupLine("");
         AnsiConsole.MarkupLine($"Last updated⌚: [bold]{lastUpdated}[/], next update: [bold]{nextUpdate}[/]");
     }
