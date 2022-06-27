@@ -112,8 +112,8 @@ public class Worker : BackgroundService
 
     private static void WriteLastUpdated()
     {
-        var lastUpdated = DateTime.Now.ToString("hh:mm:ss tt");
-        var nextUpdate = DateTime.Now.AddMilliseconds(_updateDelayTime).ToString("hh:mm:ss tt");
+        var lastUpdated = DateTime.Now.ToString("hh:mm tt");
+        var nextUpdate = DateTime.Now.AddMilliseconds(_updateDelayTime).ToString("hh:mm tt");
 
         AnsiConsole.MarkupLine("");
         AnsiConsole.MarkupLine($"Last updated⌚: [bold]{lastUpdated}[/], next update: [bold]{nextUpdate}[/]");
