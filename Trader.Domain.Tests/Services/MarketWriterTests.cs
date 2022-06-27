@@ -12,19 +12,38 @@ public class MarketWriterTests
     }
 
     [Fact]
-    public async void When_PlaceBitcoinBuyOrder_Then_Calls_Repository()
+    public async void Given_FiatAmount_When_PlaceBitcoinBuyOrder_Then_Calls_Repository()
     {
-        SetupPlaceBuyOrder(CryptoCurrency.BTC);
+        var fiatAmount = 42m;
+        SetupPlaceBuyOrder(CryptoCurrency.BTC, fiatAmount);
 
-        await _marketWriter.PlaceBitcoinBuyOrder();
+        await _marketWriter.PlaceBitcoinBuyOrder(fiatAmount);
 
         _marketRepository.Verify();
     }
 
-    private void SetupPlaceBuyOrder(CryptoCurrency cryptoCurrency)
+    [Fact]
+    public async void Given_FiatAmount_When_PlaceBitcoinSellOrder_Then_Calls_Repository()
+    {
+        var fiatAmount = 42m;
+        SetupPlaceSellOrder(CryptoCurrency.BTC, fiatAmount);
+
+        await _marketWriter.PlaceBitcoinSellOrder(fiatAmount);
+
+        _marketRepository.Verify();
+    }
+
+    private void SetupPlaceBuyOrder(CryptoCurrency cryptoCurrency, decimal fiatAmount)
     {
         _marketRepository
-            .Setup(mr => mr.PlaceBuyOrder(cryptoCurrency, FiatCurrency.NZD, It.IsAny<decimal>()))
+            .Setup(mr => mr.PlaceBuyOrder(cryptoCurrency, FiatCurrency.NZD, fiatAmount))
+            .Verifiable();
+    }
+
+    private void SetupPlaceSellOrder(CryptoCurrency cryptoCurrency, decimal fiatAmount)
+    {
+        _marketRepository
+            .Setup(mr => mr.PlaceSellOrder(cryptoCurrency, FiatCurrency.NZD, fiatAmount))
             .Verifiable();
     }
 }

@@ -27,8 +27,6 @@ public class MarketRepository : IMarketRepository
 
         var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
 
-        Console.WriteLine($"Placing a buy order for {cryptoAmount}");
-
         var response = await _client
             .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketBid, cryptoAmount);
     }
@@ -39,8 +37,6 @@ public class MarketRepository : IMarketRepository
         var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
 
         var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
-
-        Console.WriteLine($"Placing a sell order for {cryptoAmount}");
 
         var response = await _client
             .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoAmount);
