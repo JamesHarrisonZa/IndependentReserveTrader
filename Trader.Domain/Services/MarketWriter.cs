@@ -9,13 +9,13 @@ public class MarketWriter : IMarketWriter
         _marketRepository = balancesRepository;
     }
 
-    public async Task PlaceBitcoinBuyOrder(decimal fiatAmount)
+    public async Task PlaceBitcoinFiatBuyOrder(decimal fiatAmount)
     {
         await _marketRepository
             .PlaceBuyOrder(CryptoCurrency.BTC, FiatCurrency.NZD, fiatAmount);
     }
 
-    public async Task PlaceBitcoinSellOrder(decimal fiatAmount)
+    public async Task PlaceBitcoinFiatSellOrder(decimal fiatAmount)
     {
         await _marketRepository
             .PlaceSellOrder(CryptoCurrency.BTC, FiatCurrency.NZD, fiatAmount);

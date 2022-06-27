@@ -12,23 +12,23 @@ public class MarketWriterTests
     }
 
     [Fact]
-    public async void Given_FiatAmount_When_PlaceBitcoinBuyOrder_Then_Calls_Repository()
+    public async void Given_FiatAmount_When_PlaceBitcoinFiatBuyOrder_Then_Calls_Repository()
     {
         var fiatAmount = 42m;
         SetupPlaceBuyOrder(CryptoCurrency.BTC, fiatAmount);
 
-        await _marketWriter.PlaceBitcoinBuyOrder(fiatAmount);
+        await _marketWriter.PlaceBitcoinFiatBuyOrder(fiatAmount);
 
         _marketRepository.Verify();
     }
 
     [Fact]
-    public async void Given_FiatAmount_When_PlaceBitcoinSellOrder_Then_Calls_Repository()
+    public async void Given_FiatAmount_When_PlaceBitcoinFiatSellOrder_Then_Calls_Repository()
     {
         var fiatAmount = 42m;
         SetupPlaceSellOrder(CryptoCurrency.BTC, fiatAmount);
 
-        await _marketWriter.PlaceBitcoinSellOrder(fiatAmount);
+        await _marketWriter.PlaceBitcoinFiatSellOrder(fiatAmount);
 
         _marketRepository.Verify();
     }

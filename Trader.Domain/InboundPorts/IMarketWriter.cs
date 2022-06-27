@@ -2,7 +2,7 @@ namespace Trader.Domain.InboundPorts;
 
 public interface IMarketWriter
 {
-    Task PlaceBitcoinBuyOrder(decimal fiatAmount);
+    Task PlaceBitcoinFiatBuyOrder(decimal fiatAmount);
 
-    Task PlaceBitcoinSellOrder(decimal fiatAmount);
+    Task PlaceBitcoinFiatSellOrder(decimal fiatAmount);
 }
