@@ -38,7 +38,8 @@ public class BalancesRepository : IBalancesRepository
             return cachedAccounts;
 
         var accounts = await _client.GetAccountsAsync();
-        _memoryCache.AddToCache(accounts);
+        var expirationTimeInMinutes = 2;
+        _memoryCache.AddToCache(accounts, expirationTimeInMinutes);
         return accounts;
     }
 }

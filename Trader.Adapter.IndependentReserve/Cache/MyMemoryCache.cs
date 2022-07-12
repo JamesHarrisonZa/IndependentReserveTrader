@@ -21,11 +21,10 @@ public class MyMemoryCache
         return value != null;
     }
 
-    public void AddToCache<T>(T value)
+    public void AddToCache<T>(T value, int expirationTimeInMinutes)
     {
-        var twoMinutes = 2;
         var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetSlidingExpiration(TimeSpan.FromMinutes(twoMinutes));
+            .SetSlidingExpiration(TimeSpan.FromMinutes(expirationTimeInMinutes));
 
         _memoryCache.Set(CacheKeys.Accounts, value, cacheEntryOptions);
     }
