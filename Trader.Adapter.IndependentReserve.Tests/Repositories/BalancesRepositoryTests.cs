@@ -5,6 +5,7 @@ public class BalancesRepositoryTests
     private readonly Fixture _fixture;
     private readonly Mock<IMarketRepository> _marketRepositoryMock;
     private readonly Mock<IClient> _clientMock;
+    private readonly Mock<MyMemoryCache> _memoryCache;
     private readonly IBalancesRepository _balancesRepository;
 
     public BalancesRepositoryTests()
@@ -12,10 +13,12 @@ public class BalancesRepositoryTests
         _fixture = new Fixture();
         _marketRepositoryMock = new Mock<IMarketRepository>();
         _clientMock = new Mock<IClient>();
+        _memoryCache = new Mock<MyMemoryCache>();
 
         _balancesRepository = new BalancesRepository(
             _marketRepositoryMock.Object,
-            _clientMock.Object
+            _clientMock.Object,
+            _memoryCache.Object
         );
     }
 

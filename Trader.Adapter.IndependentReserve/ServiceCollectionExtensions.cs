@@ -9,6 +9,7 @@ public static class ServiceCollectionExtensions
         var client = Client.Create(apiConfig);
         services.AddSingleton<IClient>(client);
 
+        services.AddSingleton<MyMemoryCache>();
         services.AddSingleton<IBalancesRepository, BalancesRepository>();
         services.AddSingleton<IMarketRepository, MarketRepository>();
     }
