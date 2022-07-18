@@ -14,20 +14,20 @@ public class Trader: ITrader
     }
 
     public async Task Trade()
-  {
-    var lastClosedOrder = await _marketReader.GetBitcoinLastClosedOrder();
-    var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
+    {
+        var lastClosedOrder = await _marketReader.GetBitcoinLastClosedOrder();
+        var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
 
-    if (ShouldSell(marketClosedOrder))
-    {
-      // await _marketWriter.PlaceBitcoinSellOrder(marketClosedOrder.ClosedOrderVolume);
-      AnsiConsole.MarkupLine($"[{Color.Green}]Selling amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Increase of {marketClosedOrder.GainOrLossPercentage}% [/] 🚀🚀🚀");
+        if (ShouldSell(marketClosedOrder))
+        {
+          // await _marketWriter.PlaceBitcoinSellOrder(marketClosedOrder.ClosedOrderVolume);
+          AnsiConsole.MarkupLine($"[{Color.Green}]Selling amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Increase of {marketClosedOrder.GainOrLossPercentage}% [/] 🚀🚀🚀");
+        }
+        else
+        {
+          AnsiConsole.MarkupLine($"[{Color.Orange1}] Waiting for target... {_config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage}% away [/] 🎯");
+        }
     }
-    else
-    {
-      AnsiConsole.MarkupLine($"[{Color.Orange1}] Waiting for target... {_config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage}% away [/] 🎯");
-    }
-  }
 
     private bool ShouldSell(MarketClosedOrder marketClosedOrder)
     {
