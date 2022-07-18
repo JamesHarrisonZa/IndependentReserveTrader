@@ -21,17 +21,20 @@ public class Trader: ITrader
         if (ShouldSell(marketClosedOrder))
         {
           // await _marketWriter.PlaceBitcoinSellOrder(marketClosedOrder.ClosedOrderVolume);
-          AnsiConsole.MarkupLine($"[{Color.Green}]Selling amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Increase of {marketClosedOrder.GainOrLossPercentage}% [/] 🚀🚀🚀");
+          AnsiConsole.MarkupLine($"[{Color.Blue}]Selling amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Increase of {marketClosedOrder.GainOrLossPercentage}% [/] 🚀🚀🚀");
         }
         else
         {
-          AnsiConsole.MarkupLine($"[{Color.Orange1}] Waiting for target... {_config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage}% away [/] 🎯");
+          AnsiConsole.MarkupLine($"[{Color.Orange1}] Waiting for opportunity to sell {_config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage}% away [/] 🎯");
         }
     }
 
     private bool ShouldSell(MarketClosedOrder marketClosedOrder)
     {
-        if(!marketClosedOrder.IsProfitable)
+        if (marketClosedOrder.OrderType == OrderType.Sell)
+            return false;
+
+        if (!marketClosedOrder.IsProfitable)
             return false;
 
         if (marketClosedOrder.GainOrLossPercentage < _config.GainTriggerPercentage)

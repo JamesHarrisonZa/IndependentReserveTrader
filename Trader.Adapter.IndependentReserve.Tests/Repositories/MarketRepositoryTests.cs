@@ -42,7 +42,7 @@ public class MarketRepositoryTests
         var fakeLastPrice = 42000m;
         SetupGetMarketSummary(fakeLastPrice);
 
-        var expectedOrderType = OrderType.MarketBid;
+        var expectedOrderType = MarketOrderType.MarketBid;
         var expectedCryptoAmount = 0.01m;
         SetupPlaceMarketOrder(expectedOrderType, expectedCryptoAmount);
 
@@ -62,7 +62,7 @@ public class MarketRepositoryTests
         var fakeLastPrice = 42000m;
         SetupGetMarketSummary(fakeLastPrice);
 
-        var expectedOrderType = OrderType.MarketOffer;
+        var expectedOrderType = MarketOrderType.MarketOffer;
         var expectedCryptoAmount = 0.01m;
         SetupPlaceMarketOrder(expectedOrderType, expectedCryptoAmount);
 
@@ -108,7 +108,7 @@ public class MarketRepositoryTests
             .Verifiable();
     }
 
-    private void SetupPlaceMarketOrder(OrderType expectedOrderType, decimal expectedCryptoAmount)
+    private void SetupPlaceMarketOrder(MarketOrderType expectedOrderType, decimal expectedCryptoAmount)
     {
         var fakeBankOrder = _fixture
             .Create<BankOrder>();

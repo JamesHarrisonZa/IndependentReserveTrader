@@ -28,7 +28,7 @@ public class MarketRepository : IMarketRepository
         var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
 
         var response = await _client
-            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketBid, cryptoAmount);
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketBid, cryptoAmount);
     }
 
     public async Task PlaceSellOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
@@ -39,7 +39,7 @@ public class MarketRepository : IMarketRepository
         var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
 
         var response = await _client
-            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoAmount);
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketOffer, cryptoAmount);
     }
 
     public async Task PlaceSellOrder(CryptoCurrency cryptoCurrency, decimal cryptoAmount, FiatCurrency fiatCurrency)
@@ -48,7 +48,7 @@ public class MarketRepository : IMarketRepository
         var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
 
         var response = await _client
-            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoAmount);
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketOffer, cryptoAmount);
     }
 
     public async Task<ClosedOrder> GetLastClosedOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency)
@@ -57,16 +57,16 @@ public class MarketRepository : IMarketRepository
         var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
 
         var closedOrders = await _client
-            .GetClosedOrdersAsync(currencyCode, fiatCurrencyCode, 1, 25);
+            .GetClosedOrdersAsync(currencyCode, fiatCurrencyCode, 1, 25); //TODO handle pagination
 
         var lastClosedOrder = closedOrders.Data
             .OrderByDescending(o => o.CreatedTimestampUtc)
             .First();
 
-        //TODO mapping profile
         return new ClosedOrder
         {
             CreatedUtc = lastClosedOrder.CreatedTimestampUtc,
+            OrderType = GetOrderType(lastClosedOrder),
             Volume = lastClosedOrder.Volume,
             Outstanding = lastClosedOrder.Outstanding,
             Price = lastClosedOrder.Price,
@@ -85,5 +85,16 @@ public class MarketRepository : IMarketRepository
         var cryptoAmount = Math.Round(fiatAmount / currentPrice, 8);
 
         return cryptoAmount;
+    }
+
+    private Domain.Models.OrderType GetOrderType(BankHistoryOrder order)
+    {
+        if (order.OrderType == MarketOrderType.MarketBid)
+            return Domain.Models.OrderType.Buy;
+
+        if (order.OrderType == MarketOrderType.MarketOffer)
+            return Domain.Models.OrderType.Sell;
+
+        throw new Exception("Unhandled order type");
     }
 }

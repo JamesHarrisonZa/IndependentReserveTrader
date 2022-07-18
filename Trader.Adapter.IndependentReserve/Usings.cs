@@ -1,5 +1,6 @@
 global using IndependentReserve.DotNetClientApi;
 global using IndependentReserve.DotNetClientApi.Data;
+global using MarketOrderType = IndependentReserve.DotNetClientApi.Data.OrderType;
 
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.Caching.Memory;

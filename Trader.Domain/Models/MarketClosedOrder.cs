@@ -2,6 +2,7 @@ namespace Trader.Domain.Models;
 
 public class MarketClosedOrder
 {
+    public OrderType OrderType { get; init; }
     public CryptoCurrency CryptoCurrency { get; init; }
     public FiatCurrency FiatCurrency { get; init; }
     public decimal? ClosedOrderValue { get; init; }
@@ -12,6 +13,7 @@ public class MarketClosedOrder
 
     public MarketClosedOrder(ClosedOrder closedOrder)
     {
+        OrderType = closedOrder.OrderType;
         CryptoCurrency = closedOrder.CryptoCurrency;
         FiatCurrency = closedOrder.FiatCurrency;
         ClosedOrderValue = closedOrder.Value;
