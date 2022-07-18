@@ -42,6 +42,15 @@ public class MarketRepository : IMarketRepository
             .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoAmount);
     }
 
+    public async Task PlaceSellOrder(CryptoCurrency cryptoCurrency, decimal cryptoAmount, FiatCurrency fiatCurrency)
+    {
+        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
+        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
+
+        var response = await _client
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, OrderType.MarketOffer, cryptoAmount);
+    }
+
     public async Task<ClosedOrder> GetLastClosedOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency)
     {
         var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
