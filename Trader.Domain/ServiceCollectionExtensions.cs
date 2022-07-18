@@ -8,5 +8,6 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IMarketReader, MarketReader>();
         services.AddSingleton<IMarketWriter, MarketWriter>();
         services.AddSingleton<ITrader, Trader.Domain.Services.Trader>();
+        services.AddSingleton<IConfig, Config>();
     }
 }
