@@ -5,14 +5,16 @@ public class Worker : BackgroundService
     private readonly IBalancesReader _balancesReader;
     private readonly IMarketReader _marketReader;
     private readonly IMarketWriter _marketWriter;
+    private readonly ITrader _trader;
     private readonly ILogger<Worker> _logger;
     private const int _updateDelayTime =  1 * 60 * 1000; //1 minute
 
-    public Worker(IBalancesReader balancesReader, IMarketReader marketReader, IMarketWriter marketWriter, ILogger<Worker> logger)
+    public Worker(IBalancesReader balancesReader, IMarketReader marketReader, IMarketWriter marketWriter, ITrader trader, ILogger<Worker> logger)
     {
         _balancesReader = balancesReader;
         _marketReader = marketReader;
         _marketWriter = marketWriter;
+        _trader = trader;
         _logger = logger;
     }
 
@@ -40,6 +42,8 @@ public class Worker : BackgroundService
 
         await WriteBalancesTable();
         await WriteLastOrderBarChart(lastClosedOrder);
+
+        await Trade();
 
         WriteLastUpdated();
     }
@@ -130,5 +134,10 @@ public class Worker : BackgroundService
               [cyan1]FeePercent:[/] [yellow1]{lastClosedOrder.FeePercent}[/],
               [cyan1]Outstanding:[/] [yellow1]{lastClosedOrder.Outstanding}[/],
               ");
+    }
+
+    private async Task Trade()
+    {
+        await _trader.Trade();
     }
 }

@@ -20,4 +20,10 @@ public class MarketWriter : IMarketWriter
         await _marketRepository
             .PlaceSellOrder(CryptoCurrency.BTC, FiatCurrency.NZD, fiatAmount);
     }
+
+    public async Task PlaceBitcoinSellOrder(decimal btcAmount)
+    {
+        await _marketRepository
+            .PlaceSellOrder(CryptoCurrency.BTC, btcAmount, FiatCurrency.NZD);
+    }
 }
