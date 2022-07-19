@@ -55,37 +55,36 @@ public class MarketReaderTests
     public static IEnumerable<object[]> MarketValueOfBuyClosedOrderData()
     {
         //Focus on orderVolumes
-        yield return new object[] { 0.5, 10000, 15000, 7500, false, -25 };
-        yield return new object[] { 1.0m, 10000.0m, 15000.0m, 15000.0m, true, 50 };
-        yield return new object[] { 1.5m, 10000.0m, 15000.0m, 22500.00, true, 125 };
+        yield return new object[] { 0.5, 10000, OrderType.Buy, 15000, 7500, false, -25 };
+        yield return new object[] { 1, 10000, OrderType.Buy, 15000, 15000, true, 50 };
+        yield return new object[] { 1.5, 10000, OrderType.Buy, 15000, 22500, true, 125 };
 
         // //Focus on lastPrices
-        yield return new object[] { 1.0m, 10000.0m, 8999.99m, 8999.99m, false, -10 };
-        yield return new object[] { 1.0m, 10000.0m, 10000.0m, 10000.0m, false, 0 };
-        yield return new object[] { 1.0m, 10000.0m, 11999.99, 11999.99m, true, 20 };
+        yield return new object[] { 1, 10000, OrderType.Buy, 8999.99m, 8999.99m, false, -10 };
+        yield return new object[] { 1, 10000, OrderType.Buy, 10000, 10000, false, 0 };
+        yield return new object[] { 1, 10000, OrderType.Buy, 11999.99, 11999.99m, true, 20 };
 
         //Focus on GainOrLossPercentage
-        yield return new object[] { 1, 100, 90, 90, false, -10 };
-        yield return new object[] { 1, 100, 100, 100, false, 0 };
-        yield return new object[] { 1, 100, 110, 110, true, 10 };
+        yield return new object[] { 1, 100, OrderType.Buy, 90, 90, false, -10 };
+        yield return new object[] { 1, 100, OrderType.Buy, 100, 100, false, 0 };
+        yield return new object[] { 1, 100, OrderType.Buy, 110, 110, true, 10 };
     }
 
     [Theory]
     [MemberData(nameof(MarketValueOfBuyClosedOrderData))]
-    public async void Given_LastOrderTypeWasBuy_When_GetMarketValueOfClosedOrder_Then_ReturnsMarketValue(
+    public async void Given_ClosedOrder_When_GetMarketValueOfClosedOrder_Then_ReturnsMarketValue(
         decimal orderVolume, 
         decimal orderValue,
+        OrderType orderType,
         decimal lastMarketPrice, 
         decimal expectedMarketValue,
         bool expectedIsProfitable,
         decimal expectedGainOrLossPercentage
     )
     {
-        var lastOrderType = OrderType.Buy;
-
         var closedOrder = _fixture
             .Build<ClosedOrder>()
-            .With(co => co.OrderType, lastOrderType)
+            .With(co => co.OrderType, orderType)
             .With(co => co.Volume, orderVolume)
             .With(co => co.Value, orderValue)
             .Create();
