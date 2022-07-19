@@ -12,7 +12,7 @@ public class MarketWriter : IMarketWriter
     public async Task PlaceBitcoinBuyOrder(decimal btcAmount)
     {
         await _marketRepository
-            .PlaceFiatBuyOrder(CryptoCurrency.BTC, FiatCurrency.NZD, btcAmount);
+            .PlaceBuyOrder(CryptoCurrency.BTC, FiatCurrency.NZD, btcAmount);
     }
 
     public async Task PlaceBitcoinSellOrder(decimal btcAmount)
