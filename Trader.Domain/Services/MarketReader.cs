@@ -65,20 +65,11 @@ public class MarketReader : IMarketReader
     private decimal CalculateGainOrLossPercentage(ClosedOrder closedOrder, decimal marketValue)
     {
         var orderValue = closedOrder.Value ?? 0;
-        decimal percentage;
+        var percentage = (marketValue - orderValue) / orderValue * 100;
 
         if (closedOrder.OrderType == OrderType.Sell)
-        {
-            percentage = (orderValue - marketValue) / marketValue * 100;
-        }
-        else if (closedOrder.OrderType == OrderType.Buy)
-        {
-            percentage = (marketValue - orderValue) / orderValue * 100;
-        }
-        else 
-        {
-            throw new Exception("Unhandled OrderType");
-        }
+          percentage = percentage * -1;
+
         return Math.Round(percentage, 2);
     }
 }

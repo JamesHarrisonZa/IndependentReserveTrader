@@ -56,18 +56,25 @@ public class MarketReaderTests
     {
         //Focus on orderVolumes
         yield return new object[] { 0.5, 10000, OrderType.Buy, 15000, 7500, false, -25 };
+        yield return new object[] { 0.5, 10000, OrderType.Sell, 15000, 7500, true, 25 };
         yield return new object[] { 1, 10000, OrderType.Buy, 15000, 15000, true, 50 };
+        yield return new object[] { 1, 10000, OrderType.Sell, 15000, 15000, false, -50 };
         yield return new object[] { 1.5, 10000, OrderType.Buy, 15000, 22500, true, 125 };
+        yield return new object[] { 1.5, 10000, OrderType.Sell, 15000, 22500, false, -125 };
 
         // //Focus on lastPrices
         yield return new object[] { 1, 10000, OrderType.Buy, 8999.99m, 8999.99m, false, -10 };
+        yield return new object[] { 1, 10000, OrderType.Sell, 8999.99m, 8999.99m, true, 10 };
         yield return new object[] { 1, 10000, OrderType.Buy, 10000, 10000, false, 0 };
         yield return new object[] { 1, 10000, OrderType.Buy, 11999.99, 11999.99m, true, 20 };
+        yield return new object[] { 1, 10000, OrderType.Sell, 11999.99, 11999.99m, false, -20 };
 
         //Focus on GainOrLossPercentage
         yield return new object[] { 1, 100, OrderType.Buy, 90, 90, false, -10 };
+        yield return new object[] { 1, 100, OrderType.Sell, 90, 90, true, 10 };
         yield return new object[] { 1, 100, OrderType.Buy, 100, 100, false, 0 };
         yield return new object[] { 1, 100, OrderType.Buy, 110, 110, true, 10 };
+        yield return new object[] { 1, 100, OrderType.Sell, 110, 110, false, -10 };
     }
 
     [Theory]
