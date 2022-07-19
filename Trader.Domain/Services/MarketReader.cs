@@ -30,8 +30,8 @@ public class MarketReader : IMarketReader
     public async Task<MarketClosedOrder> GetMarketValueOfClosedOrder(ClosedOrder closedOrder)
     {
         var marketValue = await GetMarketValue(closedOrder.CryptoCurrency, closedOrder.Volume, closedOrder.FiatCurrency);
-        var isProfitable = CalculateIsProfitable(closedOrder.Value, marketValue);
-        var gainOrLossPercentage = CalculateGainOrLossPercentage(closedOrder.Value ?? 0, marketValue);
+        var isProfitable = CalculateIsProfitable(closedOrder, marketValue);
+        var gainOrLossPercentage = CalculateGainOrLossPercentage(closedOrder, marketValue);
 
         return new MarketClosedOrder(closedOrder)
         {
@@ -49,16 +49,36 @@ public class MarketReader : IMarketReader
         return currentValue;
     }
 
-    private bool CalculateIsProfitable(decimal? orderValue, decimal marketValue)
+    private bool CalculateIsProfitable(ClosedOrder closedOrder, decimal marketValue)
     {
-        //TODO factor in fees. Coming soon
+        //TODO factor in fees.
 
-        return marketValue > orderValue;
+        if (closedOrder.OrderType == OrderType.Buy)
+            return marketValue > closedOrder.Value;
+
+        if (closedOrder.OrderType == OrderType.Sell)
+            return marketValue < closedOrder.Value;
+
+        throw new Exception("Unhandled OrderType");
     }
 
-    private decimal CalculateGainOrLossPercentage(decimal orderValue, decimal marketValue)
+    private decimal CalculateGainOrLossPercentage(ClosedOrder closedOrder, decimal marketValue)
     {
-        var percentage = (marketValue - orderValue) / orderValue * 100;
+        var orderValue = closedOrder.Value ?? 0;
+        decimal percentage;
+
+        if (closedOrder.OrderType == OrderType.Sell)
+        {
+            percentage = (orderValue - marketValue) / marketValue * 100;
+        }
+        else if (closedOrder.OrderType == OrderType.Buy)
+        {
+            percentage = (marketValue - orderValue) / orderValue * 100;
+        }
+        else 
+        {
+            throw new Exception("Unhandled OrderType");
+        }
         return Math.Round(percentage, 2);
     }
 }

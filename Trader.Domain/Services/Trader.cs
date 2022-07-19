@@ -20,12 +20,17 @@ public class Trader: ITrader
 
         if (ShouldSell(marketClosedOrder))
         {
-          // await _marketWriter.PlaceBitcoinSellOrder(marketClosedOrder.ClosedOrderVolume);
-          AnsiConsole.MarkupLine($"[{Color.Blue}]Selling amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Increase of {marketClosedOrder.GainOrLossPercentage}% [/] 🚀🚀🚀");
+            // await _marketWriter.PlaceBitcoinSellOrder(marketClosedOrder.ClosedOrderVolume);
+            AnsiConsole.MarkupLine($"[{Color.Blue}]Selling amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Increase of {marketClosedOrder.GainOrLossPercentage}% [/] 💲💲💲📈🚀");
         }
-        else
+        else if (ShouldBuy(marketClosedOrder))
         {
-          AnsiConsole.MarkupLine($"[{Color.Orange1}] Waiting for opportunity to sell {_config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage}% away [/] 🎯");
+            AnsiConsole.MarkupLine($"[{Color.Blue}]Buying amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Market has dropped {marketClosedOrder.GainOrLossPercentage}% [/] 🤲🤲🤲📉🙏");
+        }
+        else 
+        {
+            var percentageToTrigger = GetPercentageToTrigger(marketClosedOrder);
+            AnsiConsole.MarkupLine($"[{Color.Orange1}] Waiting for opportunity {_config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage}% away [/] 🎯");
         }
     }
 
@@ -41,5 +46,31 @@ public class Trader: ITrader
             return false;
 
         return true;
+    }
+
+    private bool ShouldBuy(MarketClosedOrder marketClosedOrder)
+    {
+        if (marketClosedOrder.OrderType == OrderType.Buy)
+            return false;
+
+        if (!marketClosedOrder.IsProfitable)
+            return false;
+
+        //GainOrLossPercentage might be negative
+        if (marketClosedOrder.GainOrLossPercentage < _config.LossTriggerPercentage)
+            return false;
+
+        return true;
+    }
+
+    private decimal GetPercentageToTrigger(MarketClosedOrder marketClosedOrder)
+    {
+        if (marketClosedOrder.OrderType == OrderType.Sell)
+            return _config.LossTriggerPercentage - marketClosedOrder.GainOrLossPercentage;
+
+        if (marketClosedOrder.OrderType == OrderType.Buy)
+            return _config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage;
+
+        throw new Exception("Unhandled OrderType");
     }
 }

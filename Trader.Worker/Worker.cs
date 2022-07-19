@@ -102,16 +102,24 @@ public class Worker : BackgroundService
             : Color.Red;
     }
 
+    private static string GetProfitOrLossText(MarketClosedOrder marketClosedOrder)
+    {
+        return marketClosedOrder.IsProfitable
+            ? "Gain"
+            : "Loss";
+    }
+
     private static void WriteGainOrLossPercentage(MarketClosedOrder marketClosedOrder)
     {
         var profitOrLossColour = GetProfitOrLossColour(marketClosedOrder);
+        var profitOrLossText = GetProfitOrLossText(marketClosedOrder);
 
         var emojis = marketClosedOrder.IsProfitable
             ? "📈💲😎👍"
             : "📉💸😭👎";
 
         AnsiConsole.MarkupLine("");
-        AnsiConsole.MarkupLine($"[{profitOrLossColour}]Gain or Loss Percentage: {marketClosedOrder.GainOrLossPercentage}% [/] {emojis}");
+        AnsiConsole.MarkupLine($"[{profitOrLossColour}]{profitOrLossText} Percentage: {marketClosedOrder.GainOrLossPercentage}% [/] {emojis}");
     }
 
     private static void WriteLastUpdated()
