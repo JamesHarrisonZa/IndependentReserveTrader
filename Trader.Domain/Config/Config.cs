@@ -1,6 +1,6 @@
 namespace Trader.Domain.Config;
 
-public class Config : IConfig
+public class TradingConfig : ITradingConfig
 {
     public decimal GainTriggerPercentage => 10;
 

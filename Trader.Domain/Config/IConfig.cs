@@ -1,6 +1,6 @@
 namespace Trader.Domain.Config;
 
-public interface IConfig
+public interface ITradingConfig
 {
     decimal GainTriggerPercentage { get; }
     decimal LossTriggerPercentage { get; }

@@ -4,9 +4,9 @@ public class Trader: ITrader
 {
     private readonly IMarketReader _marketReader;
     private readonly IMarketWriter _marketWriter;
-    private readonly IConfig _config;
+    private readonly ITradingConfig _config;
 
-    public Trader(IMarketReader marketReader, IMarketWriter marketWriter, IConfig config)
+    public Trader(IMarketReader marketReader, IMarketWriter marketWriter, ITradingConfig config)
     {
         _marketReader = marketReader;
         _marketWriter = marketWriter;
