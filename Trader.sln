@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Worker", "Trader.Wor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Adapter.IndependentReserve.Tests", "Trader.Adapter.IndependentReserve.Tests\Trader.Adapter.IndependentReserve.Tests.csproj", "{3D4D125A-6B80-417E-9926-B0895FEDA0C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Domain.Tests", "Trader.Domain.Tests\Trader.Domain.Tests.csproj", "{6B15DD33-5F6D-43EC-9918-0F2B44BD5CB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{3D4D125A-6B80-417E-9926-B0895FEDA0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D4D125A-6B80-417E-9926-B0895FEDA0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D4D125A-6B80-417E-9926-B0895FEDA0C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B15DD33-5F6D-43EC-9918-0F2B44BD5CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B15DD33-5F6D-43EC-9918-0F2B44BD5CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B15DD33-5F6D-43EC-9918-0F2B44BD5CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B15DD33-5F6D-43EC-9918-0F2B44BD5CB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
