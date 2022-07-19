@@ -1,5 +1,6 @@
 bin/
 obj
+TestResults/
 
 appsettings.development.json
 appsettings.Development.json
