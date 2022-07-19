@@ -33,7 +33,7 @@ public class MarketRepositoryTests
     }
 
     [Fact]
-    public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceBuyOrder_Then_PlacesOrder_With_MarketBid()
+    public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceFiatBuyOrder_Then_PlacesOrder_With_MarketBid()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
         var fiatCurrency = FiatCurrency.NZD;
@@ -47,13 +47,13 @@ public class MarketRepositoryTests
         SetupPlaceMarketOrder(expectedOrderType, expectedCryptoAmount);
 
         await _marketRepository
-            .PlaceBuyOrder(cryptoCurrency, fiatCurrency, fiatAmount);
+            .PlaceFiatBuyOrder(cryptoCurrency, fiatCurrency, fiatAmount);
 
         _clientMock.VerifyAll();
     }
 
     [Fact]
-    public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceSellOrder_Then_PlacesOrder_With_MarketOffer()
+    public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceFiatSellOrder_Then_PlacesOrder_With_MarketOffer()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
         var fiatCurrency = FiatCurrency.NZD;
@@ -67,7 +67,7 @@ public class MarketRepositoryTests
         SetupPlaceMarketOrder(expectedOrderType, expectedCryptoAmount);
 
         await _marketRepository
-            .PlaceSellOrder(cryptoCurrency, fiatCurrency, fiatAmount);
+            .PlaceFiatSellOrder(cryptoCurrency, fiatCurrency, fiatAmount);
 
         _clientMock.VerifyAll();
     }

@@ -20,37 +20,6 @@ public class MarketRepository : IMarketRepository
         return currencyCodeSummary?.LastPrice ?? 0;
     }
 
-    public async Task PlaceBuyOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
-    {
-        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
-        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
-
-        var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
-
-        var response = await _client
-            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketBid, cryptoAmount);
-    }
-
-    public async Task PlaceSellOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
-    {
-        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
-        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
-
-        var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
-
-        var response = await _client
-            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketOffer, cryptoAmount);
-    }
-
-    public async Task PlaceSellOrder(CryptoCurrency cryptoCurrency, decimal cryptoAmount, FiatCurrency fiatCurrency)
-    {
-        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
-        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
-
-        var response = await _client
-            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketOffer, cryptoAmount);
-    }
-
     public async Task<ClosedOrder> GetLastClosedOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency)
     {
         var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
@@ -76,6 +45,46 @@ public class MarketRepository : IMarketRepository
             FiatCurrency = fiatCurrency,
             FeePercent = lastClosedOrder.FeePercent,
         };
+    }
+
+    public async Task PlaceBuyOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal cryptoAmount)
+    {
+        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
+        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
+
+        var response = await _client
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketBid, cryptoAmount);
+    }
+
+    public async Task PlaceSellOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal cryptoAmount)
+    {
+        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
+        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
+
+        var response = await _client
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketOffer, cryptoAmount);
+    }
+
+    public async Task PlaceFiatBuyOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
+    {
+        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
+        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
+
+        var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
+
+        var response = await _client
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketBid, cryptoAmount);
+    }
+
+    public async Task PlaceFiatSellOrder(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)
+    {
+        var currencyCode = CodeConverter.GetCurrencyCode(cryptoCurrency);
+        var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
+
+        var cryptoAmount = await GetCryptoAmount(cryptoCurrency, fiatCurrency, fiatAmount);
+
+        var response = await _client
+            .PlaceMarketOrderAsync(currencyCode, fiatCurrencyCode, MarketOrderType.MarketOffer, cryptoAmount);
     }
 
     private async Task<decimal> GetCryptoAmount(CryptoCurrency cryptoCurrency, FiatCurrency fiatCurrency, decimal fiatAmount)

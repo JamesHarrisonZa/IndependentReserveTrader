@@ -25,6 +25,7 @@ public class Trader: ITrader
         }
         else if (ShouldBuy(marketClosedOrder))
         {
+            //await _marketWriter.PlaceBitcoinBuyOrder(marketClosedOrder.ClosedOrderVolume);
             AnsiConsole.MarkupLine($"[{Color.Blue}]Buying amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Market has dropped {marketClosedOrder.GainOrLossPercentage}% [/] 🤲🤲🤲📉🙏");
         }
         else 
