@@ -1,4 +1,4 @@
-# IndependantReserveTrader
+# Independent Reserve Trader
 
 ## ⚡ Getting started
 
@@ -21,6 +21,6 @@ dotnet run --project Trader.Worker/Trader.Worker.csproj
   - [Nuget package on github](https://github.com/spectreconsole/spectre.console)
   - [Docs](https://spectreconsole.net/)
 
-## 🔧 Coming Soon™
+## 🔧 Work in progress™
 
 - Domain logic for algorithm to buy/sell 🤡
