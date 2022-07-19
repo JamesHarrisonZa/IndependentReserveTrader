@@ -33,6 +33,41 @@ public class MarketRepositoryTests
     }
 
     [Fact]
+    public async void Given_CryptoCurrency_FiatCurrency_When_GetLastClosedOrder_Then_Returns_OrderDetails()
+    {
+        var cryptoCurrency = CryptoCurrency.BTC;
+        var fiatCurrency = FiatCurrency.NZD;
+
+        var fakeClosedOrders = _fixture
+            .Create<Page<BankHistoryOrder>>();
+        _clientMock
+            .Setup(c => c.GetClosedOrdersAsync(CurrencyCode.Xbt, CurrencyCode.Nzd, It.IsAny<int>(), It.IsAny<int>()))
+            .ReturnsAsync(fakeClosedOrders);
+
+        var lastClosedOrder = await _marketRepository
+            .GetLastClosedOrder(cryptoCurrency, fiatCurrency);
+
+        _clientMock.VerifyAll();
+    }
+
+
+    [Fact]
+    public async void Given_CryptoCurrency_FiatCurrency_And_CryptoAmount_When_PlaceBuyOrder_Then_PlacesOrder_With_MarketBid()
+    {
+        var cryptoCurrency = CryptoCurrency.BTC;
+        var fiatCurrency = FiatCurrency.NZD;
+        var cryptoAmount = 0.42m;
+
+        var expectedOrderType = MarketOrderType.MarketBid;
+        SetupPlaceMarketOrder(expectedOrderType, cryptoAmount);
+
+        await _marketRepository
+            .PlaceBuyOrder(cryptoCurrency, fiatCurrency, cryptoAmount);
+
+        _clientMock.VerifyAll();
+    }
+
+    [Fact]
     public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceFiatBuyOrder_Then_PlacesOrder_With_MarketBid()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
@@ -53,6 +88,22 @@ public class MarketRepositoryTests
     }
 
     [Fact]
+    public async void Given_CryptoCurrency_FiatCurrency_And_CryptoAmount_When_PlaceSellOrder_Then_PlacesOrder_With_MarketBid()
+    {
+        var cryptoCurrency = CryptoCurrency.BTC;
+        var fiatCurrency = FiatCurrency.NZD;
+        var cryptoAmount = 0.42m;
+
+        var expectedOrderType = MarketOrderType.MarketOffer;
+        SetupPlaceMarketOrder(expectedOrderType, cryptoAmount);
+
+        await _marketRepository
+            .PlaceSellOrder(cryptoCurrency, fiatCurrency, cryptoAmount);
+
+        _clientMock.VerifyAll();
+    }
+
+    [Fact]
     public async void Given_CryptoCurrency_FiatCurrency_And_FiatAmount_When_PlaceFiatSellOrder_Then_PlacesOrder_With_MarketOffer()
     {
         var cryptoCurrency = CryptoCurrency.BTC;
@@ -68,24 +119,6 @@ public class MarketRepositoryTests
 
         await _marketRepository
             .PlaceFiatSellOrder(cryptoCurrency, fiatCurrency, fiatAmount);
-
-        _clientMock.VerifyAll();
-    }
-
-    [Fact]
-    public async void Given_CryptoCurrency_FiatCurrency_When_GetLastClosedOrder_Then_Returns_OrderDetails()
-    {
-        var cryptoCurrency = CryptoCurrency.BTC;
-        var fiatCurrency = FiatCurrency.NZD;
-
-        var fakeClosedOrders = _fixture
-            .Create<Page<BankHistoryOrder>>();
-        _clientMock
-            .Setup(c => c.GetClosedOrdersAsync(CurrencyCode.Xbt, CurrencyCode.Nzd, It.IsAny<int>(), It.IsAny<int>()))
-            .ReturnsAsync(fakeClosedOrders);
-
-        var lastClosedOrder = await _marketRepository
-            .GetLastClosedOrder(cryptoCurrency, fiatCurrency);
 
         _clientMock.VerifyAll();
     }
