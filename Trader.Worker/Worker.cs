@@ -80,12 +80,15 @@ public class Worker : BackgroundService
         var marketClosedOrder = await _marketReader.GetMarketValueOfClosedOrder(lastClosedOrder);
 
         var lastOrderValue = Convert.ToDouble(lastClosedOrder.Value);
+        var lastOrderType = lastClosedOrder.OrderType == OrderType.Buy
+            ? "BOUGHT" 
+            : "SOLD";
         var orderMarketValue = Convert.ToDouble(marketClosedOrder.MarketValue);
         var profitOrLossColour = GetProfitOrLossColour(marketClosedOrder);
 
         var barChart = new BarChart()
             .Width(60)
-            .Label($"[green bold underline]Last Bitcoin Order {lastClosedOrder.FiatCurrency}[/]")
+            .Label($"[green bold underline]Last Bitcoin Order ({lastOrderType}) {lastClosedOrder.FiatCurrency}[/]")
             .CenterLabel();
 
         barChart.AddItem("[cyan1] Order Value [/]", lastOrderValue, Color.Yellow1);
