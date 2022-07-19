@@ -52,7 +52,7 @@ public class MarketReaderTests
         Assert.Equal(expectedLastClosedOrder, actualLastClosedOrder);
     }
 
-    public static IEnumerable<object[]> GetCurrentValueOfClosedOrderData()
+    public static IEnumerable<object[]> MarketValueOfBuyClosedOrderData()
     {
         //Focus on orderVolumes
         yield return new object[] { 0.5, 10000, 15000, 7500, false, -25 };
@@ -71,7 +71,7 @@ public class MarketReaderTests
     }
 
     [Theory]
-    [MemberData(nameof(GetCurrentValueOfClosedOrderData))]
+    [MemberData(nameof(MarketValueOfBuyClosedOrderData))]
     public async void Given_LastOrderTypeWasBuy_When_GetMarketValueOfClosedOrder_Then_ReturnsMarketValue(
         decimal orderVolume, 
         decimal orderValue,
