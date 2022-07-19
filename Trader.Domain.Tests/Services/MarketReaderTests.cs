@@ -72,7 +72,7 @@ public class MarketReaderTests
 
     [Theory]
     [MemberData(nameof(GetCurrentValueOfClosedOrderData))]
-    public async void Given_MarketReturnsPrice_When_GetMarketValueOfClosedOrder_Then_ReturnsMarketValue(
+    public async void Given_LastOrderTypeWasBuy_When_GetMarketValueOfClosedOrder_Then_ReturnsMarketValue(
         decimal orderVolume, 
         decimal orderValue,
         decimal lastMarketPrice, 
@@ -81,8 +81,11 @@ public class MarketReaderTests
         decimal expectedGainOrLossPercentage
     )
     {
+        var lastOrderType = OrderType.Buy;
+
         var closedOrder = _fixture
             .Build<ClosedOrder>()
+            .With(co => co.OrderType, lastOrderType)
             .With(co => co.Volume, orderVolume)
             .With(co => co.Value, orderValue)
             .Create();
