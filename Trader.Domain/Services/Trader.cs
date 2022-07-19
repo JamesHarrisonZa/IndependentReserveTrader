@@ -56,7 +56,6 @@ public class Trader: ITrader
         if (!marketClosedOrder.IsProfitable)
             return false;
 
-        //GainOrLossPercentage might be negative
         if (marketClosedOrder.GainOrLossPercentage < _config.LossTriggerPercentage)
             return false;
 
