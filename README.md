@@ -6,6 +6,15 @@
 dotnet run --project Trader.Worker/Trader.Worker.csproj
 ```
 
+```bash
+# Code Coverage
+# Using https://www.nuget.org/packages/dotnet-reportgenerator-globaltool
+
+dotnet test Trader.sln --collect:"XPlat Code Coverage"
+
+dotnet reportgenerator -reports:"./**/coverage.cobertura.xml" -targetdir:"./CoverageReport" -reporttypes:"html"
+```
+
 ## 🎩 Patterns
 
 - __Hexagonal architecture__ with __Ports & Adapters__ pattern.

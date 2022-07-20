@@ -1,6 +1,7 @@
 bin/
 obj
 TestResults/
+CoverageReport/
 
 appsettings.development.json
 appsettings.Development.json
