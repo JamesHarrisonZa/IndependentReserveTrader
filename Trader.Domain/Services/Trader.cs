@@ -21,17 +21,17 @@ public class Trader: ITrader
         if (ShouldSell(marketClosedOrder))
         {
             await _marketWriter.PlaceBitcoinSellOrder(marketClosedOrder.ClosedOrderVolume);
-            AnsiConsole.MarkupLine($"[{Color.Blue}]Selling amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Increase of {marketClosedOrder.GainOrLossPercentage}% [/] 💲💲💲📈🚀");
+            AnsiConsole.MarkupLine($"[{Color.LightGreen_1}]Selling amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Increase of {marketClosedOrder.GainOrLossPercentage}% [/] 📈💲🚀");
         }
         else if (ShouldBuy(marketClosedOrder))
         {
             await _marketWriter.PlaceBitcoinBuyOrder(marketClosedOrder.ClosedOrderVolume);
-            AnsiConsole.MarkupLine($"[{Color.Blue}]Buying amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Market has dropped {marketClosedOrder.GainOrLossPercentage}% [/] 🤲🤲🤲📉🙏");
+            AnsiConsole.MarkupLine($"[{Color.Orange1}]Buying amount {marketClosedOrder.ClosedOrderVolume} for around {marketClosedOrder.MarketValue}. Market has dropped {marketClosedOrder.GainOrLossPercentage}% [/] 📉🤲🙏");
         }
         else 
         {
             var percentageToTrigger = GetPercentageToTrigger(marketClosedOrder);
-            AnsiConsole.MarkupLine($"[{Color.Orange1}] Waiting for opportunity {_config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage}% away [/] 🎯");
+            AnsiConsole.MarkupLine($"[{Color.Yellow1}]Waiting for opportunity {_config.GainTriggerPercentage - marketClosedOrder.GainOrLossPercentage}% away [/] 👀⏰🎯");
         }
     }
 

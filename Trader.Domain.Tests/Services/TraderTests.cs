@@ -21,6 +21,7 @@ public class TraderTests
     [Theory]
     [InlineData(100, 111, 11, 0.42)]
     [Trait("Scenario", "LastClosedOrderWasBuy")]
+    [Trait("Scenario", "IsProfitable")]
     public async void Given_LastClosedOrderWasBuy_IsProfitable_And_LastClosedOrderGain_Is_HigherThanTrigger_When_Trading_Then_Sells(
       decimal orderValue, 
       decimal marketOrderValue,
@@ -42,6 +43,7 @@ public class TraderTests
     [Theory]
     [InlineData(100, 109, 9)]
     [Trait("Scenario", "LastClosedOrderWasBuy")]
+    [Trait("Scenario", "IsProfitable")]
     public async void Given_LastClosedOrderWasBuy_IsProfitable_And_LastClosedOrderGain_IsNot_HigherThanTrigger_When_Trading_Then_Waits
     (
       decimal orderValue, 
@@ -60,16 +62,32 @@ public class TraderTests
         VerifyDoesNotBuyOrSell();
     }
 
-    [Fact]
+    [Theory]
+    [InlineData(100, 89, 11, 0.42)]
     [Trait("Scenario", "LastClosedOrderWasSell")]
-    public async void Given_LastClosedOrderWasSell_And_LastClosedOrderGain_Is_HigherThanTrigger_When_Trading_Then_Buys()
+    [Trait("Scenario", "IsProfitable")]
+    public async void Given_LastClosedOrderWasSell_IsProfitable_And_LastClosedOrderGain_Is_HigherThanTrigger_When_Trading_Then_Buys(
+      decimal orderValue, 
+      decimal marketOrderValue,
+      decimal gainPercentage,
+      decimal orderVolume
+    )
     {
-        // await _trader.Trade();
+        var orderType = OrderType.Sell;
+        var isProfitable = true;
+
+        var marketClosedOrder = BuildMarketClosedOrder(orderType, isProfitable, orderValue, marketOrderValue, gainPercentage, orderVolume);
+        SetupMarketReader(marketClosedOrder);
+
+        await _trader.Trade();
+
+        VerifyBuyOrder(orderVolume);
     }
 
     [Fact]
     [Trait("Scenario", "LastClosedOrderWasSell")]
-    public async void Given_LastClosedOrderWasSell_And_LastClosedOrderGain_IsNot_HigherThanTrigger_When_Trading_Then_Waits()
+    [Trait("Scenario", "IsProfitable")]
+    public async void Given_LastClosedOrderWasSell_IsProfitable_And_LastClosedOrderGain_IsNot_HigherThanTrigger_When_Trading_Then_Waits()
     {
         // await _trader.Trade();
     }
@@ -115,6 +133,12 @@ public class TraderTests
     {
           _marketWriter
               .Verify(mw => mw.PlaceBitcoinSellOrder(orderVolume), Times.Once());
+    }
+
+    private void VerifyBuyOrder(decimal orderVolume)
+    {
+          _marketWriter
+              .Verify(mw => mw.PlaceBitcoinBuyOrder(orderVolume), Times.Once());
     }
 
     private void VerifyDoesNotBuyOrSell()
