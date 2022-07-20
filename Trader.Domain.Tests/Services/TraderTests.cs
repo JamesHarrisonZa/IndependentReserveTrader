@@ -21,14 +21,17 @@ public class TraderTests
     [Theory]
     [InlineData(100, 111, 11, 0.42)]
     [Trait("Scenario", "LastClosedOrderWasBuy")]
-    public async void Given_LastClosedOrderWasBuy_And_LastClosedOrderGain_Is_HigherThanTrigger_When_Trading_Then_Sells(
+    public async void Given_LastClosedOrderWasBuy_IsProfitable_And_LastClosedOrderGain_Is_HigherThanTrigger_When_Trading_Then_Sells(
       decimal orderValue, 
       decimal marketOrderValue,
       decimal gainPercentage,
       decimal orderVolume
     )
     {
-        var marketClosedOrder = BuildMarketClosedOrder(orderValue, marketOrderValue, gainPercentage, orderVolume);
+        var orderType = OrderType.Buy;
+        var isProfitable = true;
+
+        var marketClosedOrder = BuildMarketClosedOrder(orderType, isProfitable, orderValue, marketOrderValue, gainPercentage, orderVolume);
         SetupMarketReader(marketClosedOrder);
 
         await _trader.Trade();
@@ -36,11 +39,25 @@ public class TraderTests
         VerifySellOrder(orderVolume);
     }
 
-    [Fact]
+    [Theory]
+    [InlineData(100, 109, 9)]
     [Trait("Scenario", "LastClosedOrderWasBuy")]
-    public async void Given_LastClosedOrderWasBuy_And_LastClosedOrderGain_IsNot_HigherThanTrigger_When_Trading_Then_Waits()
+    public async void Given_LastClosedOrderWasBuy_IsProfitable_And_LastClosedOrderGain_IsNot_HigherThanTrigger_When_Trading_Then_Waits
+    (
+      decimal orderValue, 
+      decimal marketOrderValue,
+      decimal gainPercentage
+    )
     {
-        // await _trader.Trade();
+        var orderType = OrderType.Buy;
+        var isProfitable = true;
+
+        var marketClosedOrder = BuildMarketClosedOrder(orderType, isProfitable, orderValue, marketOrderValue, gainPercentage);
+        SetupMarketReader(marketClosedOrder);
+
+        await _trader.Trade();
+
+        VerifyDoesNotBuyOrSell();
     }
 
     [Fact]
@@ -57,12 +74,19 @@ public class TraderTests
         // await _trader.Trade();
     }
 
-    private MarketClosedOrder BuildMarketClosedOrder(decimal orderValue, decimal marketOrderValue, decimal gainPercentage, decimal orderVolume)
+    private MarketClosedOrder BuildMarketClosedOrder(
+      OrderType orderType, 
+      bool isProfitable, 
+      decimal orderValue, 
+      decimal marketOrderValue, 
+      decimal gainPercentage, 
+      decimal orderVolume = 0
+    )
     {
         return _fixture
             .Build<MarketClosedOrder>()
-            .With(mco => mco.OrderType, OrderType.Buy)
-            .With(mco => mco.IsProfitable, true)
+            .With(mco => mco.OrderType, orderType)
+            .With(mco => mco.IsProfitable, isProfitable)
             .With(mco => mco.ClosedOrderValue, orderValue)
             .With(mco => mco.MarketValue, marketOrderValue)
             .With(mco => mco.GainOrLossPercentage, gainPercentage)
@@ -90,7 +114,15 @@ public class TraderTests
     private void VerifySellOrder(decimal orderVolume)
     {
           _marketWriter
-              .Setup(mw => mw.PlaceBitcoinSellOrder(orderVolume))
-              .Verifiable();
+              .Verify(mw => mw.PlaceBitcoinSellOrder(orderVolume), Times.Once());
+    }
+
+    private void VerifyDoesNotBuyOrSell()
+    {
+          _marketWriter
+              .Verify(mw => mw.PlaceBitcoinBuyOrder(It.IsAny<decimal>()), Times.Never());
+
+          _marketWriter
+              .Verify(mw => mw.PlaceBitcoinSellOrder(It.IsAny<decimal>()), Times.Never());
     }
 }
