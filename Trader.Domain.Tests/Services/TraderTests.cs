@@ -84,12 +84,26 @@ public class TraderTests
         VerifyBuyOrder(orderVolume);
     }
 
-    [Fact]
+    [Theory]
+    [InlineData(100, 91, 9)]
     [Trait("Scenario", "LastClosedOrderWasSell")]
     [Trait("Scenario", "IsProfitable")]
-    public async void Given_LastClosedOrderWasSell_IsProfitable_And_LastClosedOrderGain_IsNot_HigherThanTrigger_When_Trading_Then_Waits()
+    public async void Given_LastClosedOrderWasSell_IsProfitable_And_LastClosedOrderGain_IsNot_HigherThanTrigger_When_Trading_Then_Waits
+    (
+      decimal orderValue, 
+      decimal marketOrderValue,
+      decimal gainPercentage
+    )
     {
-        // await _trader.Trade();
+        var orderType = OrderType.Sell;
+        var isProfitable = true;
+
+        var marketClosedOrder = BuildMarketClosedOrder(orderType, isProfitable, orderValue, marketOrderValue, gainPercentage);
+        SetupMarketReader(marketClosedOrder);
+
+        await _trader.Trade();
+
+        VerifyDoesNotBuyOrSell();
     }
 
     private MarketClosedOrder BuildMarketClosedOrder(
