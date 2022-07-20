@@ -1,5 +1,6 @@
 namespace Trader.Adapter.IndependentReserve;
 
+[ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
     public static void AddIndependentReserveAdapter(this IServiceCollection services, IConfiguration configuration)

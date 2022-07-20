@@ -1,5 +1,6 @@
 ﻿namespace Trader.DependencyInjection;
 
+[ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
     public static void AddDomainPorts(this IServiceCollection services)

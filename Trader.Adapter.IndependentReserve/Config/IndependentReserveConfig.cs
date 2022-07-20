@@ -1,5 +1,6 @@
 namespace Trader.Adapter.IndependentReserve.Config;
 
+[ExcludeFromCodeCoverage]
 public class IndependentReserveConfig
 {
     public string? BaseUrl { get; init; }
