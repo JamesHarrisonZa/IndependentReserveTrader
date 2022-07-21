@@ -2,32 +2,27 @@ namespace Trader.Adapter.IndependentReserve;
 
 public static class CodeConverter
 {
+    private static Dictionary<CryptoCurrency, CurrencyCode> _cryptoCurrencyCodes = 
+        new Dictionary<CryptoCurrency, CurrencyCode>()
+        {
+            { CryptoCurrency.BTC, CurrencyCode.Xbt},
+            { CryptoCurrency.ETH, CurrencyCode.Eth},
+        };
+
+    private static Dictionary<FiatCurrency, CurrencyCode> _fiatCurrencyCodes = 
+        new Dictionary<FiatCurrency, CurrencyCode>()
+        {
+            { FiatCurrency.NZD, CurrencyCode.Nzd},
+            { FiatCurrency.USD, CurrencyCode.Usd},
+        };
 
     public static CurrencyCode GetCurrencyCode(CryptoCurrency code)
     {
-        switch (code)
-        {
-            case CryptoCurrency.BTC:
-                return CurrencyCode.Xbt;
-            case CryptoCurrency.ETH:
-                return CurrencyCode.Eth;
-
-            default:
-                throw new ArgumentException($"Invalid code: {code}");
-        }
+        return _cryptoCurrencyCodes[code];
     }
 
     public static CurrencyCode GetCurrencyCode(FiatCurrency code)
     {
-        switch (code)
-        {
-            case FiatCurrency.NZD:
-                return CurrencyCode.Nzd;
-            case FiatCurrency.USD:
-                return CurrencyCode.Usd;
-
-            default:
-                throw new ArgumentException($"Invalid code: {code}");
-        }
+        return _fiatCurrencyCodes[code];
     }
 }
