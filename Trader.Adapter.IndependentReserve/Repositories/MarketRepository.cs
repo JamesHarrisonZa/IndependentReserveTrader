@@ -98,12 +98,6 @@ public class MarketRepository : IMarketRepository
 
     private Domain.Models.OrderType GetOrderType(BankHistoryOrder order)
     {
-        if (order.OrderType == MarketOrderType.MarketBid || order.OrderType == MarketOrderType.LimitBid)
-            return Domain.Models.OrderType.Buy;
-
-        if (order.OrderType == MarketOrderType.MarketOffer || order.OrderType == MarketOrderType.LimitOffer)
-            return Domain.Models.OrderType.Sell;
-
-        throw new Exception("Unhandled order type");
+        return OrderTypeConverter.GetOrderType(order.OrderType);
     }
 }
