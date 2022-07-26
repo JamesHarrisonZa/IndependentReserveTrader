@@ -9,6 +9,7 @@ dotnet run --project Trader.Worker/Trader.Worker.csproj
 ```bash
 # Code Coverage
 # Using https://www.nuget.org/packages/dotnet-reportgenerator-globaltool
+# and VSCode extension: https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters 
 
 dotnet test Trader.sln --collect:"XPlat Code Coverage"
 
@@ -32,4 +33,6 @@ dotnet reportgenerator -reports:"./**/coverage.cobertura.xml" -targetdir:"./Cove
 
 ## 🔧 Work in progress™
 
-- Domain logic for algorithm to buy/sell 🤡
+- Handle pagination in some places 🙈
+- More caching opportunities 😎
+- Get higher than 98% code coverage 💪
