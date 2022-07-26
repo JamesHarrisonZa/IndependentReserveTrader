@@ -26,7 +26,7 @@ public class MarketRepository : IMarketRepository
         var fiatCurrencyCode = CodeConverter.GetCurrencyCode(fiatCurrency);
 
         var closedOrders = await _client
-            .GetClosedOrdersAsync(currencyCode, fiatCurrencyCode, 1, 25); //TODO handle pagination
+            .GetClosedFilledOrdersAsync(currencyCode, fiatCurrencyCode, 1, 5); // Don't need to add pagination as most recent orders are returned first
 
         var lastClosedOrder = closedOrders.Data
             .OrderByDescending(o => o.CreatedTimestampUtc)

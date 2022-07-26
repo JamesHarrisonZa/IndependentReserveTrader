@@ -33,6 +33,5 @@ dotnet reportgenerator -reports:"./**/coverage.cobertura.xml" -targetdir:"./Cove
 
 ## 🔧 Work in progress™
 
-- Handle pagination in some places 🙈
 - More caching opportunities 😎
 - Get higher than 98% code coverage 💪
